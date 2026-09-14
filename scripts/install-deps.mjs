@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import sh from 'shelljs'
+import * as fs from 'fs'
+import * as path from 'path'
 import * as vars from './vars.mjs'
 import log from 'npmlog'
 
@@ -9,7 +11,13 @@ sh.exec(`yarn patch-package`, { fatal: true })
 log.info('deps', 'app')
 
 sh.cd('app')
-sh.exec(`yarn install --force --network-timeout 1000000`, { fatal: true })
+const nodeDir = path.dirname(path.dirname(process.execPath))
+const hasLocalNodeHeaders = fs.existsSync(path.join(nodeDir, 'include/node/node.h'))
+// setup-node already provides matching headers, so node-gyp does not need a network download.
+const appInstallEnv = hasLocalNodeHeaders
+    ? { ...process.env, npm_config_nodedir: nodeDir }
+    : process.env
+sh.exec(`yarn install --force --network-timeout 1000000`, { fatal: true, env: appInstallEnv })
 // Some native packages might fail to build before patch-package gets a chance to run via postinstall
 sh.exec(`yarn postinstall`, { fatal: false })
 sh.cd('..')
