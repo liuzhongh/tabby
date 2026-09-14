@@ -39,7 +39,7 @@ export class SecretViewerActionProvider extends SSHProfileSettingsActionProvider
         modal.componentInstance.title = this.translate.instant('Password for {user}@{host}', profile.options)
         modal.componentInstance.kind = 'password'
         modal.componentInstance.loader = async (): Promise<SecretViewerData> => ({
-            password: await this.passwords.loadPassword(profile) ?? profile.options.password ?? null,
+            password: await this.passwords.loadPassword(profile) ?? profile.options.password,
         })
     }
 
