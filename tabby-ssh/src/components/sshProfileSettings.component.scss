@@ -1,7 +1,13 @@
 .inline-secret {
-    flex: 0 1 320px;
-    min-width: 140px;
+    flex: 0 1 40ch;
+    min-width: 24ch;
+    max-width: 40ch;
     margin-left: .5rem;
+    font-family: 'Source Code Pro', monospace;
+
+    input {
+        font-family: inherit;
+    }
 }
 
 .inline-secret + .btn,
