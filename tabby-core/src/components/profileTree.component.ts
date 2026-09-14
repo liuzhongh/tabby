@@ -73,10 +73,11 @@ export class ProfileTreeComponent extends BaseComponent {
             }
         }
 
-        groups = groups.filter(g => g.id !== 'built-in')
+        // The profile tree is a user workspace. Provider-supplied profiles remain
+        // available through the standard profile selector.
+        groups = groups.filter(g => g.editable === true || g.id === 'ungrouped')
 
         groups.sort((a, b) => a.name.localeCompare(b.name))
-        groups.sort((a, b) => (a.id === 'built-in' || !a.editable ? 1 : 0) - (b.id === 'built-in' || !b.editable ? 1 : 0))
         groups.sort((a, b) => (a.id === 'ungrouped' ? 0 : 1) - (b.id === 'ungrouped' ? 0 : 1))
         this.profileGroups = groups.map(g => ProfileTreeComponent.intoPartialCollapsableProfileGroup(g, profileGroupCollapsed[g.id] ?? false))
         this.rootGroups = this.profilesService.buildGroupTree(this.profileGroups)

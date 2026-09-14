@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import TabbyCoreModule from 'tabby-core'
 import { SSHProfileSettingsActionProvider } from 'tabby-ssh'
 
 import { SecretViewerModalComponent } from './secretViewerModal.component'
@@ -11,6 +12,7 @@ import { SecretViewerActionProvider } from './secretViewerActionProvider'
     imports: [
         CommonModule,
         NgbModule,
+        TabbyCoreModule,
     ],
     declarations: [
         SecretViewerModalComponent,

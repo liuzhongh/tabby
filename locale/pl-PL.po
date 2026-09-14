@@ -2627,3 +2627,23 @@ msgstr "Skopiowano do schowka"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Wyniki filtrowania"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Uruchom"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Edytuj profil"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Rozwiń grupę"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Zwiń grupę"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Edytuj grupę"

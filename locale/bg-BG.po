@@ -2627,3 +2627,23 @@ msgstr "Копирано в клипборда"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Резултати от филтъра"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Стартиране"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Редактиране на профила"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Разгъване на групата"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Свиване на групата"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Редактиране на групата"

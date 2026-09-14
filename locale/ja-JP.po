@@ -2627,3 +2627,23 @@ msgstr "クリップボードにコピーしました"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "フィルター結果"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "実行"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "プロファイルを編集"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "グループを展開"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "グループを折りたたむ"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "グループを編集"

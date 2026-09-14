@@ -1005,8 +1005,9 @@ msgid "Hexadecimal"
 msgstr "Heksadesimal"
 
 #: locale/tmp-html/tabby-settings/src/components/profilesSettingsTab.component.html:49
+#: tabby-password-viewer/src/secretViewerModal.component.pug
 msgid "Hide"
-msgstr ""
+msgstr "Sembunyikan"
 
 #: locale/tmp-html/tabby-settings/src/components/windowSettingsTab.component.html:176
 msgid "Hide tab close button"
@@ -2627,3 +2628,23 @@ msgstr "Disalin ke papan klip"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Hasil filter"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Jalankan"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Edit profil"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Perluas grup"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Ciutkan grup"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Edit grup"

@@ -2627,3 +2627,23 @@ msgstr "In die Zwischenablage kopiert"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Filterergebnisse"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Ausführen"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Profil bearbeiten"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Gruppe erweitern"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Gruppe einklappen"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Gruppe bearbeiten"

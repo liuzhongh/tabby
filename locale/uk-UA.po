@@ -2627,3 +2627,23 @@ msgstr "Скопійовано до буфера обміну"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Результати фільтрації"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Запустити"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Редагувати профіль"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Розгорнути групу"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Згорнути групу"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Редагувати групу"

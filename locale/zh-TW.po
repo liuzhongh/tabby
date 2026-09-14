@@ -2627,3 +2627,23 @@ msgstr "已複製到剪貼簿"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "篩選結果"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "執行"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "編輯設定檔"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "展開群組"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "收合群組"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "編輯群組"

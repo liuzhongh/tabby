@@ -2627,3 +2627,23 @@ msgstr "Zkopírováno do schránky"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Výsledky filtru"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Spustit"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Upravit profil"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Rozbalit skupinu"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Sbalit skupinu"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Upravit skupinu"

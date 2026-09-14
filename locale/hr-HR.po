@@ -2627,3 +2627,23 @@ msgstr "Kopirano u međuspremnik"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Rezultati filtra"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Pokreni"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Uredi profil"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Proširi grupu"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Sažmi grupu"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Uredi grupu"

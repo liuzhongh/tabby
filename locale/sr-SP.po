@@ -1005,8 +1005,9 @@ msgid "Hexadecimal"
 msgstr "Хексадецимални"
 
 #: locale/tmp-html/tabby-settings/src/components/profilesSettingsTab.component.html:49
+#: tabby-password-viewer/src/secretViewerModal.component.pug
 msgid "Hide"
-msgstr ""
+msgstr "Сакриј"
 
 #: locale/tmp-html/tabby-settings/src/components/windowSettingsTab.component.html:176
 msgid "Hide tab close button"
@@ -2627,3 +2628,23 @@ msgstr "Копирано у привремену меморију"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Резултати филтера"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Покрени"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Уреди профил"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Прошири групу"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Скупи групу"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Уреди групу"

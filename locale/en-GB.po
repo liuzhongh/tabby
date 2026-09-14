@@ -294,8 +294,9 @@ msgstr ""
 #: locale/tmp-html/tabby-settings/src/components/editProfileModal.component.html:53
 #: locale/tmp-html/tabby-settings/src/components/showSecretModal.component.html:10
 #: tabby-core/src/tabContextMenu.ts:33
+#: tabby-password-viewer/src/secretViewerModal.component.pug
 msgid "Close"
-msgstr ""
+msgstr "Close"
 
 #: locale/tmp-html/tabby-core/src/components/welcomeTab.component.html:45
 msgid "Close and never show again"
@@ -439,8 +440,9 @@ msgid "Copied"
 msgstr ""
 
 #: tabby-terminal/src/tabContextMenu.ts:30
+#: tabby-password-viewer/src/secretViewerModal.component.pug
 msgid "Copy"
-msgstr ""
+msgstr "Copy"
 
 #: tabby-terminal/src/hotkeys.ts:70
 #: tabby-terminal/src/tabContextMenu.ts:70
@@ -1005,8 +1007,9 @@ msgid "Hexadecimal"
 msgstr ""
 
 #: locale/tmp-html/tabby-settings/src/components/profilesSettingsTab.component.html:49
+#: tabby-password-viewer/src/secretViewerModal.component.pug
 msgid "Hide"
-msgstr ""
+msgstr "Hide"
 
 #: locale/tmp-html/tabby-settings/src/components/windowSettingsTab.component.html:176
 msgid "Hide tab close button"
@@ -1547,8 +1550,9 @@ msgstr ""
 
 #: locale/tmp-html/tabby-ssh/src/components/sshProfileSettings.component.html:100
 #: locale/tmp-html/tabby-ssh/src/components/sshProfileSettings.component.html:82
+#: tabby-password-viewer/src/secretViewerModal.component.pug
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: locale/tmp-html/tabby-terminal/src/components/terminalSettingsTab.component.html:62
 #: tabby-terminal/src/api/baseTerminalTab.component.ts:521
@@ -2627,3 +2631,23 @@ msgstr "Copied to clipboard"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Filter results"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Run"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Edit profile"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Expand group"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Collapse group"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Edit group"

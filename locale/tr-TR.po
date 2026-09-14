@@ -2628,3 +2628,23 @@ msgstr "Panoya kopyalandı"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Filtre sonuçları"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Çalıştır"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Profili düzenle"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Grubu genişlet"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Grubu daralt"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Grubu düzenle"

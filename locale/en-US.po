@@ -66,3 +66,39 @@ msgstr "Copied to clipboard"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Filter results"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Run"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Edit profile"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Expand group"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Collapse group"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Edit group"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Password"
+msgstr "Password"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Hide"
+msgstr "Hide"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Close"
+msgstr "Close"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Copy"
+msgstr "Copy"

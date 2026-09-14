@@ -1005,8 +1005,9 @@ msgid "Hexadecimal"
 msgstr "Hexadecimal"
 
 #: locale/tmp-html/tabby-settings/src/components/profilesSettingsTab.component.html:49
+#: tabby-password-viewer/src/secretViewerModal.component.pug
 msgid "Hide"
-msgstr ""
+msgstr "Skjul"
 
 #: locale/tmp-html/tabby-settings/src/components/windowSettingsTab.component.html:176
 msgid "Hide tab close button"
@@ -2627,3 +2628,23 @@ msgstr "Kopieret til udklipsholder"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Filter results"
 msgstr "Filterresultater"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Run"
+msgstr "Kør"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit profile"
+msgstr "Rediger profil"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Expand group"
+msgstr "Udvid gruppe"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Collapse group"
+msgstr "Fold gruppe sammen"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Edit group"
+msgstr "Rediger gruppe"
