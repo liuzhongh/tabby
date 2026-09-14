@@ -2572,3 +2572,58 @@ msgctxt "[Dynamic] port forwarding"
 msgid "id.port-forwarding.dynamic"
 msgstr "動態通訊埠轉發"
 
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Show profile sidebar"
+msgstr "顯示設定檔側邊欄"
+
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Displays a full tree of profiles in the sidebar."
+msgstr "在側邊欄中顯示完整的設定檔樹狀結構。"
+
+#: tabby-core/src/components/appRoot.component.pug
+msgid "New connection"
+msgstr "新增連線"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show password"
+msgstr "顯示密碼"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show private key"
+msgstr "顯示私密金鑰"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Password for {user}@{host}"
+msgstr "{user}@{host} 的密碼"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Private key: {path}"
+msgstr "私密金鑰：{path}"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key"
+msgstr "私密金鑰"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved password"
+msgstr "沒有已儲存的密碼"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key passphrase"
+msgstr "私密金鑰密碼"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved passphrase"
+msgstr "沒有已儲存的私密金鑰密碼"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Show again"
+msgstr "再次顯示"
+
+#: tabby-password-viewer/src/secretViewerModal.component.ts
+msgid "Copied to clipboard"
+msgstr "已複製到剪貼簿"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Filter results"
+msgstr "篩選結果"

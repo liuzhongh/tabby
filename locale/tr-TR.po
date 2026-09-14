@@ -2573,3 +2573,58 @@ msgctxt "[Dynamic] port forwarding"
 msgid "id.port-forwarding.dynamic"
 msgstr "id.port-forwarding.dynamic"
 
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Show profile sidebar"
+msgstr "Profil kenar çubuğunu göster"
+
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Displays a full tree of profiles in the sidebar."
+msgstr "Kenar çubuğunda profillerin tam ağacını gösterir."
+
+#: tabby-core/src/components/appRoot.component.pug
+msgid "New connection"
+msgstr "Yeni bağlantı"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show password"
+msgstr "Parolayı göster"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show private key"
+msgstr "Özel anahtarı göster"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Password for {user}@{host}"
+msgstr "{user}@{host} için parola"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Private key: {path}"
+msgstr "Özel anahtar: {path}"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key"
+msgstr "Özel anahtar"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved password"
+msgstr "Kayıtlı parola yok"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key passphrase"
+msgstr "Özel anahtar parolası"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved passphrase"
+msgstr "Kayıtlı anahtar parolası yok"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Show again"
+msgstr "Tekrar göster"
+
+#: tabby-password-viewer/src/secretViewerModal.component.ts
+msgid "Copied to clipboard"
+msgstr "Panoya kopyalandı"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Filter results"
+msgstr "Filtre sonuçları"

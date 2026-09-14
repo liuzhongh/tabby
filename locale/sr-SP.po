@@ -2572,3 +2572,58 @@ msgctxt "[Dynamic] port forwarding"
 msgid "id.port-forwarding.dynamic"
 msgstr ""
 
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Show profile sidebar"
+msgstr "Прикажи бочну траку профила"
+
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Displays a full tree of profiles in the sidebar."
+msgstr "Приказује цело стабло профила у бочној траци."
+
+#: tabby-core/src/components/appRoot.component.pug
+msgid "New connection"
+msgstr "Нова веза"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show password"
+msgstr "Прикажи лозинку"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show private key"
+msgstr "Прикажи приватни кључ"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Password for {user}@{host}"
+msgstr "Лозинка за {user}@{host}"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Private key: {path}"
+msgstr "Приватни кључ: {path}"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key"
+msgstr "Приватни кључ"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved password"
+msgstr "Нема сачуване лозинке"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key passphrase"
+msgstr "Приступна фраза приватног кључа"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved passphrase"
+msgstr "Нема сачуване приступне фразе"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Show again"
+msgstr "Прикажи поново"
+
+#: tabby-password-viewer/src/secretViewerModal.component.ts
+msgid "Copied to clipboard"
+msgstr "Копирано у привремену меморију"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Filter results"
+msgstr "Резултати филтера"

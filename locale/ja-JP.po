@@ -2572,3 +2572,58 @@ msgctxt "[Dynamic] port forwarding"
 msgid "id.port-forwarding.dynamic"
 msgstr "ダイナミック"
 
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Show profile sidebar"
+msgstr "プロファイルサイドバーを表示"
+
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Displays a full tree of profiles in the sidebar."
+msgstr "サイドバーにプロファイルの完全なツリーを表示します。"
+
+#: tabby-core/src/components/appRoot.component.pug
+msgid "New connection"
+msgstr "新しい接続"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show password"
+msgstr "パスワードを表示"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show private key"
+msgstr "秘密鍵を表示"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Password for {user}@{host}"
+msgstr "{user}@{host} のパスワード"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Private key: {path}"
+msgstr "秘密鍵: {path}"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key"
+msgstr "秘密鍵"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved password"
+msgstr "保存されたパスワードはありません"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key passphrase"
+msgstr "秘密鍵のパスフレーズ"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved passphrase"
+msgstr "保存されたパスフレーズはありません"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Show again"
+msgstr "再表示"
+
+#: tabby-password-viewer/src/secretViewerModal.component.ts
+msgid "Copied to clipboard"
+msgstr "クリップボードにコピーしました"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Filter results"
+msgstr "フィルター結果"

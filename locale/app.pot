@@ -1,6 +1,11 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"PO-Revision-Date: \n"
+"Language: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
 #: tabby-local/src/components/terminalTab.component.ts:113
 msgid "\"{command}\" is still running. Close?"
@@ -2572,4 +2577,60 @@ msgstr ""
 #: locale/tmp-html/tabby-ssh/src/components/sshPortForwardingConfig.component.html:5
 msgctxt "[Dynamic] port forwarding"
 msgid "id.port-forwarding.dynamic"
+msgstr ""
+
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Show profile sidebar"
+msgstr ""
+
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Displays a full tree of profiles in the sidebar."
+msgstr ""
+
+#: tabby-core/src/components/appRoot.component.pug
+msgid "New connection"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show password"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show private key"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Password for {user}@{host}"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Private key: {path}"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved password"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key passphrase"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved passphrase"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Show again"
+msgstr ""
+
+#: tabby-password-viewer/src/secretViewerModal.component.ts
+msgid "Copied to clipboard"
+msgstr ""
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Filter results"
 msgstr ""

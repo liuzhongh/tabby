@@ -2572,3 +2572,58 @@ msgctxt "[Dynamic] port forwarding"
 msgid "id.port-forwarding.dynamic"
 msgstr "Dynamické"
 
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Show profile sidebar"
+msgstr "Zobrazit postranní panel profilů"
+
+#: tabby-settings/src/components/windowSettingsTab.component.pug
+msgid "Displays a full tree of profiles in the sidebar."
+msgstr "Zobrazí úplný strom profilů v postranním panelu."
+
+#: tabby-core/src/components/appRoot.component.pug
+msgid "New connection"
+msgstr "Nové připojení"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show password"
+msgstr "Zobrazit heslo"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Show private key"
+msgstr "Zobrazit soukromý klíč"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Password for {user}@{host}"
+msgstr "Heslo pro {user}@{host}"
+
+#: tabby-password-viewer/src/secretViewerActionProvider.ts
+msgid "Private key: {path}"
+msgstr "Soukromý klíč: {path}"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key"
+msgstr "Soukromý klíč"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved password"
+msgstr "Není uloženo žádné heslo"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Private key passphrase"
+msgstr "Přístupová fráze soukromého klíče"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "No saved passphrase"
+msgstr "Není uložena žádná přístupová fráze"
+
+#: tabby-password-viewer/src/secretViewerModal.component.pug
+msgid "Show again"
+msgstr "Zobrazit znovu"
+
+#: tabby-password-viewer/src/secretViewerModal.component.ts
+msgid "Copied to clipboard"
+msgstr "Zkopírováno do schránky"
+
+#: tabby-core/src/components/profileTree.component.ts
+msgid "Filter results"
+msgstr "Výsledky filtru"

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap'
-import { NotificationsService, PlatformService } from 'tabby-core'
+import { NotificationsService, PlatformService, TranslateService } from 'tabby-core'
 
 const CLEAR_SECRET_DELAY = 30000
 
@@ -33,6 +33,7 @@ export class SecretViewerModalComponent implements OnDestroy {
         public activeModal: NgbActiveModal,
         private platform: PlatformService,
         private notifications: NotificationsService,
+        private translate: TranslateService,
     ) { }
 
     ngOnDestroy (): void {
@@ -71,7 +72,7 @@ export class SecretViewerModalComponent implements OnDestroy {
             return
         }
         this.platform.setClipboard({ text: value })
-        this.notifications.info('Copied to clipboard')
+        this.notifications.info(this.translate.instant('Copied to clipboard'))
     }
 
     private scheduleClear (): void {

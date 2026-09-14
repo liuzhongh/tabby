@@ -29,18 +29,13 @@ export class ProfileWorkspaceService {
         const tab = this.app.mruTabs.find(x => this.getProfileIdForTab(x) === profileId)
             ?? this.app.tabs.find(x => this.getProfileIdForTab(x) === profileId)
             ?? null
-        this.app.selectTab(tab)
+        if (tab) {
+            this.app.selectTab(tab)
+        }
     }
 
     clearSelection (): void {
         this.selectedProfileIdChanged.next(null)
-    }
-
-    getVisibleTabs (): BaseTabComponent[] {
-        if (!this.selectedProfileId) {
-            return this.app.tabs
-        }
-        return this.app.tabs.filter(tab => this.getProfileIdForTab(tab) === this.selectedProfileId)
     }
 
     getOpenTabCount (profileId?: string): number {

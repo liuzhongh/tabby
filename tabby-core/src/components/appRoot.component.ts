@@ -257,7 +257,7 @@ export class AppRootComponent {
     }
 
     get visibleTabs (): BaseTabComponent[] {
-        return this.config.store.showProfileTree ? this.workspace.getVisibleTabs() : this.app.tabs
+        return this.app.tabs
     }
 
     async launchSelectedProfile (): Promise<void> {
