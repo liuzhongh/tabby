@@ -25,7 +25,9 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     supportedAlgorithms = supportedAlgorithms
     algorithms: Record<string, Record<string, boolean>> = {}
     jumpHosts: PartialProfile<SSHProfile>[]
+    passwordActions: SSHProfileSettingsAction[] = []
     @ViewChild('loginScriptsSettings') loginScriptsSettings: LoginScriptsSettingsComponent|null
+    private privateKeyActions = new Map<string, SSHProfileSettingsAction[]>()
 
     constructor (
         public hostApp: HostAppService,
@@ -37,6 +39,7 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     ) { }
 
     async ngOnInit () {
+        this.passwordActions = this.settingsActionProviders?.flatMap(x => x.getPasswordActions(this.profile)) ?? []
         this.jumpHosts = (await this.profilesService.getProfiles({ includeBuiltin: false })).filter(x => x.type === 'ssh' && x !== this.profile)
         this.jumpHosts.sort(firstBy(x => this.getJumpHostLabel(x)))
 
@@ -88,12 +91,19 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         this.passwordStorage.deletePassword(this.profile)
     }
 
-    getPasswordActions (): SSHProfileSettingsAction[] {
-        return this.settingsActionProviders?.flatMap(x => x.getPasswordActions(this.profile)) ?? []
+    getPrivateKeyActions (path: string): SSHProfileSettingsAction[] {
+        let actions = this.privateKeyActions.get(path)
+        if (!actions) {
+            actions = this.settingsActionProviders?.flatMap(x => x.getPrivateKeyActions(this.profile, path)) ?? []
+            this.privateKeyActions.set(path, actions)
+        }
+        return actions
     }
 
-    getPrivateKeyActions (path: string): SSHProfileSettingsAction[] {
-        return this.settingsActionProviders?.flatMap(x => x.getPrivateKeyActions(this.profile, path)) ?? []
+    async runSettingsAction (action: SSHProfileSettingsAction, event: MouseEvent): Promise<void> {
+        event.preventDefault()
+        event.stopPropagation()
+        await action.run()
     }
 
     async addPrivateKey () {
@@ -107,6 +117,7 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     }
 
     removePrivateKey (path: string) {
+        this.privateKeyActions.delete(path)
         this.profile.options.privateKeys = this.profile.options.privateKeys.filter(x => x !== path)
     }
 

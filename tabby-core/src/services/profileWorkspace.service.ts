@@ -13,6 +13,9 @@ export class ProfileWorkspaceService {
     private selectedProfileIdChanged = new BehaviorSubject<string|null>(null)
 
     constructor (private app: AppService) {
+        if (this.app.activeTab) {
+            this.selectedProfileIdChanged.next(this.getProfileIdForTab(this.app.activeTab))
+        }
         this.app.activeTabChange$.subscribe(tab => {
             if (!tab) {
                 return

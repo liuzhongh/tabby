@@ -29,8 +29,8 @@
                 ng-container(*ngIf='!group.collapsed')
                     ng-container(*ngFor='let profile of group.profiles')
                         a.tree-item(
-                            (click)='selectProfile(profile)',
-                            (dblclick)='launchProfile(profile)',
+                            (click)='selectProfile(profile, $event)',
+                            (dblclick)='launchProfile(profile, $event)',
                             [class.active]='workspace.selectedProfileId === profile.id',
                             [style.paddingLeft.px]='(depth + 1) * 20',
                             (contextmenu)='profileContextMenu(profile, $event)',
@@ -43,7 +43,7 @@
                             span.session-count(*ngIf='workspace.getOpenTabCount(profile.id)') {{workspace.getOpenTabCount(profile.id)}}
 
                             .actions
-                                .action((click)='launchProfile(profile)')
+                                .action((click)='launchProfile(profile, $event)')
                                     .fa.fa-fw.fas.fa-play
 
                     ng-container(*ngFor='let child of group.children')
@@ -83,14 +83,14 @@
             *ngFor='let profile of group.profiles',
             [class.active]='workspace.selectedProfileId === profile.id',
             [style.paddingLeft.px]='12 + depth * 12',
-            (click)='selectProfile(profile)',
-            (dblclick)='launchProfile(profile)',
+            (click)='selectProfile(profile, $event)',
+            (dblclick)='launchProfile(profile, $event)',
             (contextmenu)='profileContextMenu(profile, $event)'
         )
             profile-icon.me-2([icon]='profile.icon', [color]='profile.color')
             span.me-auto {{ profile.name }}
             span.session-count(*ngIf='workspace.getOpenTabCount(profile.id)') {{workspace.getOpenTabCount(profile.id)}}
-            i.fas.fa-play.ms-3((click)='$event.stopPropagation(); launchProfile(profile)')
+            i.fas.fa-play.ms-3((click)='launchProfile(profile, $event)')
 
         ng-container(*ngFor='let child of group.children')
             ng-container(*ngTemplateOutlet='recursiveHorizontalGroup; context: {$implicit: child, depth: depth + 1}')

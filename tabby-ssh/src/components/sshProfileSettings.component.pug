@@ -180,9 +180,9 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                 ng-container(*ngIf='hasSavedPassword')
                     button.btn.btn-link.ms-2(
                         type='button',
-                        *ngFor='let action of getPasswordActions()',
+                        *ngFor='let action of passwordActions',
                         [ngbTooltip]='action.title',
-                        (click)='action.run()'
+                        (click)='runSettingsAction(action, $event)'
                     )
                         i([class]='action.icon')
                 button.btn.btn-danger.ms-4(*ngIf='hasSavedPassword', (click)='clearSavedPassword()')
@@ -199,7 +199,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                             type='button',
                             *ngFor='let action of getPrivateKeyActions(path)',
                             [ngbTooltip]='action.title',
-                            (click)='action.run()'
+                            (click)='runSettingsAction(action, $event)'
                         )
                             i([class]='action.icon')
                         button.btn.btn-link((click)='removePrivateKey(path)')

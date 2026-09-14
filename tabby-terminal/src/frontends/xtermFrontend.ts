@@ -30,14 +30,12 @@ const COLOR_NAMES = [
 // before Fcitx5 can emit the converted keypress/input event.
 const LINUX_IME_TEXT_KEY_CODES = new Set([
     'Backquote',
-    'Backslash',
     'BracketLeft',
     'BracketRight',
     'Comma',
     'Period',
     'Quote',
     'Semicolon',
-    'Slash',
 ])
 
 function isIMETextKey (event: KeyboardEvent): boolean {

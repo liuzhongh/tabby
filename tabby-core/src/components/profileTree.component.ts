@@ -197,14 +197,17 @@ export class ProfileTreeComponent extends BaseComponent {
         // TODO: show active tab in the side panel with eye icon
     }
 
-    async launchProfile<P extends Profile> (profile: PartialProfile<P>): Promise<any> {
+    async launchProfile<P extends Profile> (profile: PartialProfile<P>, event?: MouseEvent): Promise<any> {
+        event?.preventDefault()
+        event?.stopPropagation()
         if (profile.id) {
             this.workspace.selectProfile(profile.id)
         }
         return this.profilesService.launchProfile(profile)
     }
 
-    selectProfile (profile: PartialProfile<Profile>): void {
+    selectProfile (profile: PartialProfile<Profile>, event?: MouseEvent): void {
+        event?.preventDefault()
         if (profile.id) {
             this.workspace.selectProfile(profile.id)
         }
