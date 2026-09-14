@@ -73,16 +73,12 @@ export class ProfileTreeComponent extends BaseComponent {
             }
         }
 
-        if (!this.config.store.terminal.showBuiltinProfiles) { groups = groups.filter(g => g.id !== 'built-in') }
+        groups = groups.filter(g => g.id !== 'built-in')
 
         groups.sort((a, b) => a.name.localeCompare(b.name))
         groups.sort((a, b) => (a.id === 'built-in' || !a.editable ? 1 : 0) - (b.id === 'built-in' || !b.editable ? 1 : 0))
         groups.sort((a, b) => (a.id === 'ungrouped' ? 0 : 1) - (b.id === 'ungrouped' ? 0 : 1))
-        groups.sort((a, b) => (a.id === 'built-in' ? 1 : 0) - (b.id === 'built-in' ? 1 : 0))
-        this.profileGroups = groups.map(g => ProfileTreeComponent.intoPartialCollapsableProfileGroup(
-            g,
-            profileGroupCollapsed[g.id] ?? g.id === 'built-in',
-        ))
+        this.profileGroups = groups.map(g => ProfileTreeComponent.intoPartialCollapsableProfileGroup(g, profileGroupCollapsed[g.id] ?? false))
         this.rootGroups = this.profilesService.buildGroupTree(this.profileGroups)
     }
 

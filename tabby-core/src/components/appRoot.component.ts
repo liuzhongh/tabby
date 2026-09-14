@@ -318,8 +318,8 @@ export class AppRootComponent {
             ||
                 this.hostApp.platform !== Platform.macOS
                 && this.config.store.appearance.frame === 'thin'
-                && this.tabsLocation !== 'top'
-                && this.tabsLocation !== 'bottom'
+                && this.profileMenuLocation !== 'top'
+                && this.profileMenuLocation !== 'bottom'
         )
     }
 }

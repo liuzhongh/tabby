@@ -10,18 +10,26 @@ title-bar(
     [class.profile-menu-bottom]='config.store.showProfileTree && profileMenuLocation == "bottom"',
     [class.profile-menu-right]='config.store.showProfileTree && profileMenuLocation == "right"'
 )
-    profile-tree(
+    .profile-navigation(
         *ngIf='ready && config.store.showProfileTree',
-        [orientation]='profileMenuLocation',
-        [class.mac-inset]='hostApp.platform == Platform.macOS \
-        && !hostWindow.isFullscreen \
-        && config.store.appearance.frame == "thin" \
-        && profileMenuLocation == "left"',
-        [class.mac-horizontal-inset]='hostApp.platform == Platform.macOS \
-        && !hostWindow.isFullscreen \
-        && config.store.appearance.frame == "thin" \
-        && profileMenuLocation == "top"'
+        [class.vertical]='profileMenuLocation == "left" || profileMenuLocation == "right"',
+        [class.horizontal]='profileMenuLocation == "top" || profileMenuLocation == "bottom"'
     )
+        profile-tree(
+            [orientation]='profileMenuLocation',
+            [class.mac-inset]='hostApp.platform == Platform.macOS \
+            && !hostWindow.isFullscreen \
+            && config.store.appearance.frame == "thin" \
+            && profileMenuLocation == "left"',
+            [class.mac-horizontal-inset]='hostApp.platform == Platform.macOS \
+            && !hostWindow.isFullscreen \
+            && config.store.appearance.frame == "thin" \
+            && profileMenuLocation == "top"'
+        )
+        .profile-toolbar.tab-bar(
+            *ngIf='!hostWindow.isFullscreen || config.store.appearance.tabsInFullscreen'
+        )
+            ng-container(*ngTemplateOutlet='toolbarControls')
 
     .content.main.h-100(
         *ngIf='ready',
@@ -58,70 +66,12 @@ title-bar(
                     [ngbTooltip]='tab.customTitle || tab.title'
                 )
 
-            button.btn.btn-secondary.btn-tab-bar.profile-new-session(
-                *ngIf='config.store.showProfileTree && workspace.selectedProfileId',
-                [ngbTooltip]='"New connection"|translate',
-                (click)='launchSelectedProfile()'
-            )
-                i.fas.fa-plus
+            ng-container(*ngIf='!config.store.showProfileTree')
+                ng-container(*ngTemplateOutlet='toolbarControls')
 
-            .btn-group.background
-                .d-flex(
-                    *ngFor='let button of leftToolbarButtons'
-                )
-                    button.btn.btn-secondary.btn-tab-bar(
-                        [ngbTooltip]='button.label',
-                        (click)='button.run && button.run()',
-                        [fastHtmlBind]='button.icon'
-                    )
-
-                .d-flex(
-                    ngbDropdown,
-                    container='body',
-                    #activeTransfersDropdown='ngbDropdown'
-                )
-                    button.btn.btn-secondary.btn-tab-bar(
-                        [hidden]='activeTransfers.length == 0',
-                        [ngbTooltip]='"File transfers"|translate',
-                        ngbDropdownToggle
-                    ) !{require('../icons/transfers.svg')}
-                    transfers-menu(
-                        ngbDropdownMenu,
-                        [(transfers)]='activeTransfers',
-                        (transfersChange)='onTransfersChange()'
-                    )
-
-            .btn-space.background(
-                [class.persistent]='config.store.appearance.frame == "thin"',
-                [class.drag]='config.store.appearance.frame == "thin" \
-                && ((tabsLocation !== "left" && tabsLocation !== "right") || hostApp.platform !== Platform.macOS)'
-            )
-
-            .btn-group.background
-                .d-flex(
-                    *ngFor='let button of rightToolbarButtons'
-                )
-                    button.btn.btn-secondary.btn-tab-bar(
-                        [ngbTooltip]='button.label',
-                        (click)='button.run && button.run()',
-                        [fastHtmlBind]='button.icon'
-                    )
-
-                button.btn.btn-secondary.btn-tab-bar.btn-update(
-                    *ngIf='updatesAvailable',
-                    [ngbTooltip]='"Update available - Click to install"|translate',
-                    (click)='updater.update()'
-                ) !{require('../icons/gift.svg')}
-
-            window-controls.background(
-                *ngIf='config.store.appearance.frame == "thin" \
-                && tabsLocation !== "left" \
-                && tabsLocation !== "right" \
-                && hostApp.platform == Platform.Linux',
-            )
-
-            div.window-controls-spacer(
-                *ngIf='config.store.appearance.frame == "thin" && (hostApp.platform == Platform.Windows) && (tabsLocation == "top")',
+            .btn-space.background.session-tab-space(
+                *ngIf='config.store.showProfileTree',
+                [class.drag]='config.store.appearance.frame == "thin"'
             )
         .content
             start-page.content-tab.content-tab-active(*ngIf='ready && app.tabs.length == 0')
@@ -143,3 +93,63 @@ title-bar(
             )
 
 ng-template(ngbModalContainer)
+
+ng-template(#toolbarControls)
+    .btn-group.background
+        .d-flex(
+            *ngFor='let button of leftToolbarButtons'
+        )
+            button.btn.btn-secondary.btn-tab-bar(
+                [ngbTooltip]='button.label',
+                (click)='button.run && button.run()',
+                [fastHtmlBind]='button.icon'
+            )
+
+        .d-flex(
+            ngbDropdown,
+            container='body',
+            #activeTransfersDropdown='ngbDropdown'
+        )
+            button.btn.btn-secondary.btn-tab-bar(
+                [hidden]='activeTransfers.length == 0',
+                [ngbTooltip]='"File transfers"|translate',
+                ngbDropdownToggle
+            ) !{require('../icons/transfers.svg')}
+            transfers-menu(
+                ngbDropdownMenu,
+                [(transfers)]='activeTransfers',
+                (transfersChange)='onTransfersChange()'
+            )
+
+    .btn-space.background(
+        [class.persistent]='config.store.appearance.frame == "thin"',
+        [class.drag]='config.store.appearance.frame == "thin" \
+        && ((profileMenuLocation !== "left" && profileMenuLocation !== "right") || hostApp.platform !== Platform.macOS)'
+    )
+
+    .btn-group.background
+        .d-flex(
+            *ngFor='let button of rightToolbarButtons'
+        )
+            button.btn.btn-secondary.btn-tab-bar(
+                [ngbTooltip]='button.label',
+                (click)='button.run && button.run()',
+                [fastHtmlBind]='button.icon'
+            )
+
+        button.btn.btn-secondary.btn-tab-bar.btn-update(
+            *ngIf='updatesAvailable',
+            [ngbTooltip]='"Update available - Click to install"|translate',
+            (click)='updater.update()'
+        ) !{require('../icons/gift.svg')}
+
+    window-controls.background(
+        *ngIf='config.store.appearance.frame == "thin" \
+        && profileMenuLocation !== "left" \
+        && profileMenuLocation !== "right" \
+        && hostApp.platform == Platform.Linux',
+    )
+
+    div.window-controls-spacer(
+        *ngIf='config.store.appearance.frame == "thin" && (hostApp.platform == Platform.Windows) && (profileMenuLocation == "top")',
+    )

@@ -41,6 +41,47 @@ $tab-border-radius: 4px;
     }
 }
 
+.profile-navigation {
+    display: flex;
+    flex: none;
+    min-width: 0;
+    min-height: 0;
+
+    &.vertical {
+        height: 100%;
+        flex-direction: column;
+
+        profile-tree {
+            flex: 1 1 0;
+            min-height: 0;
+            height: auto !important;
+        }
+
+        .profile-toolbar {
+            width: 100%;
+            border-top: 1px solid var(--theme-secondary);
+        }
+    }
+
+    &.horizontal {
+        width: 100%;
+        height: var(--tabs-height);
+        flex-direction: row;
+
+        profile-tree {
+            width: auto !important;
+            flex: 1 1 0;
+            min-width: 0;
+        }
+
+        .profile-toolbar {
+            width: auto;
+            height: 100%;
+            flex: 0 0 auto;
+        }
+    }
+}
+
 .content {
     width: 100%;
     flex: 1 1 0;
@@ -186,6 +227,11 @@ $tab-border-radius: 4px;
     .cdk-drop-list-dragging tab-header:not(.cdk-drag-placeholder) {
         transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     }
+}
+
+.session-tab-space {
+    min-width: 1px;
+    flex: 1 1 auto;
 }
 
 .profile-workspace-empty {
