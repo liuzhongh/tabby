@@ -16,7 +16,7 @@ import { BaseTabComponent } from './baseTab.component'
 import { SafeModeModalComponent } from './safeModeModal.component'
 import { TabBodyComponent } from './tabBody.component'
 import { SplitTabComponent } from './splitTab.component'
-import { AppService, Command, CommandLocation, FileTransfer, HostWindowService, PlatformService } from '../api'
+import { AppService, Command, CommandLocation, FileTransfer, HostWindowService, PlatformService, ProfilesService, ProfileWorkspaceService } from '../api'
 
 function makeTabAnimation (dimension: string, size: number) {
     return [
@@ -85,6 +85,8 @@ export class AppRootComponent {
         public hostApp: HostAppService,
         public config: ConfigService,
         public app: AppService,
+        public workspace: ProfileWorkspaceService,
+        private profilesService: ProfilesService,
         platform: PlatformService,
         log: LogService,
         ngbModal: NgbModal,
@@ -97,8 +99,8 @@ export class AppRootComponent {
         this.hotkeys.hotkey$.subscribe((hotkey: string) => {
             if (hotkey.startsWith('tab-')) {
                 const index = parseInt(hotkey.split('-')[1])
-                if (index <= this.app.tabs.length) {
-                    this.app.selectTab(this.app.tabs[index - 1])
+                if (index <= this.visibleTabs.length) {
+                    this.app.selectTab(this.visibleTabs[index - 1])
                 }
             }
             if (this.app.activeTab) {
@@ -240,7 +242,33 @@ export class AppRootComponent {
     }
 
     hasVerticalTabs () {
-        return this.config.store.appearance.tabsLocation === 'left' || this.config.store.appearance.tabsLocation === 'right'
+        return this.tabsLocation === 'left' || this.tabsLocation === 'right'
+    }
+
+    get profileMenuLocation (): string {
+        return this.config.store.appearance.tabsLocation
+    }
+
+    get tabsLocation (): string {
+        if (!this.config.store.showProfileTree) {
+            return this.profileMenuLocation
+        }
+        return this.profileMenuLocation === 'top' || this.profileMenuLocation === 'bottom' ? 'left' : 'top'
+    }
+
+    get visibleTabs (): BaseTabComponent[] {
+        return this.config.store.showProfileTree ? this.workspace.getVisibleTabs() : this.app.tabs
+    }
+
+    async launchSelectedProfile (): Promise<void> {
+        const profileId = this.workspace.selectedProfileId
+        if (!profileId) {
+            return
+        }
+        const profile = (await this.profilesService.getProfiles({ includeBuiltin: true })).find(x => x.id === profileId)
+        if (profile) {
+            await this.profilesService.launchProfile(profile)
+        }
     }
 
     get targetTabSize (): any {
@@ -258,7 +286,11 @@ export class AppRootComponent {
                 this.app.wrapAndAddTab(tab)
             }
         }
-        this.app.moveTabToIndex(tab, event.currentIndex)
+        const target = this.visibleTabs[event.currentIndex]
+        const targetIndex = this.app.tabs.indexOf(target)
+        if (targetIndex !== -1) {
+            this.app.moveTabToIndex(tab, targetIndex)
+        }
     }
 
     onTransfersChange () {
@@ -286,8 +318,8 @@ export class AppRootComponent {
             ||
                 this.hostApp.platform !== Platform.macOS
                 && this.config.store.appearance.frame === 'thin'
-                && this.config.store.appearance.tabsLocation !== 'top'
-                && this.config.store.appearance.tabsLocation !== 'bottom'
+                && this.tabsLocation !== 'top'
+                && this.tabsLocation !== 'bottom'
         )
     }
 }

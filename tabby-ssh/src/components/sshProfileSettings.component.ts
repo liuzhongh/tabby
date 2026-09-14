@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Component, ViewChild } from '@angular/core'
+import { Component, Inject, Optional, ViewChild } from '@angular/core'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { firstBy } from 'thenby'
 
@@ -7,6 +7,7 @@ import { FileProvidersService, Platform, HostAppService, PromptModalComponent, P
 import { LoginScriptsSettingsComponent } from 'tabby-terminal'
 import { PasswordStorageService } from '../services/passwordStorage.service'
 import { ForwardedPortConfig, SSHAlgorithmType, SSHProfile } from '../api'
+import { SSHProfileSettingsAction, SSHProfileSettingsActionProvider } from '../api/profileSettingsAction'
 import { supportedAlgorithms } from '../algorithms'
 import { SSHProfilesService } from '../profiles'
 
@@ -32,6 +33,7 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         private passwordStorage: PasswordStorageService,
         private ngbModal: NgbModal,
         private fileProviders: FileProvidersService,
+        @Optional() @Inject(SSHProfileSettingsActionProvider) private settingsActionProviders: SSHProfileSettingsActionProvider[]|null,
     ) { }
 
     async ngOnInit () {
@@ -84,6 +86,14 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     clearSavedPassword () {
         this.hasSavedPassword = false
         this.passwordStorage.deletePassword(this.profile)
+    }
+
+    getPasswordActions (): SSHProfileSettingsAction[] {
+        return this.settingsActionProviders?.flatMap(x => x.getPasswordActions(this.profile)) ?? []
+    }
+
+    getPrivateKeyActions (path: string): SSHProfileSettingsAction[] {
+        return this.settingsActionProviders?.flatMap(x => x.getPrivateKeyActions(this.profile, path)) ?? []
     }
 
     async addPrivateKey () {

@@ -1,0 +1,26 @@
+{
+  "name": "tabby-password-viewer",
+  "version": "1.0.0",
+  "description": "View saved SSH passwords, private keys and private key passphrases",
+  "keywords": [
+    "tabby-builtin-plugin"
+  ],
+  "main": "dist/index.js",
+  "typings": "typings/index.d.ts",
+  "scripts": {
+    "build": "webpack --progress --color"
+  },
+  "files": [
+    "dist",
+    "typings"
+  ],
+  "author": "Tabby Developers",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^15",
+    "@angular/core": "^15",
+    "@ng-bootstrap/ng-bootstrap": "^14",
+    "tabby-core": "*",
+    "tabby-ssh": "*"
+  }
+}

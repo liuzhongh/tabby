@@ -30,6 +30,7 @@ export { KeyEventData, KeyName, Keystroke, altKeyName, metaKeyName } from '../se
 export { NotificationsService } from '../services/notifications.service'
 export { ThemesService } from '../services/themes.service'
 export { ProfilesService } from '../services/profiles.service'
+export { ProfileWorkspaceService } from '../services/profileWorkspace.service'
 export { SelectorService } from '../services/selector.service'
 export { TabRecoveryService } from '../services/tabRecovery.service'
 export { TabsService, NewTabParameters, TabComponentType } from '../services/tabs.service'

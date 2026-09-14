@@ -1,4 +1,4 @@
-.p-2.h-100.d-flex.flex-column
+.vertical-profile-menu.p-2.h-100.d-flex.flex-column(*ngIf='isVertical')
     input.form-control.form-control-sm.mb-1(
         type='text',
         [(ngModel)]='filter',
@@ -10,9 +10,9 @@
         .d-flex.flex-column.p-2.profile-tree-container
 
             ng-container(*ngFor='let group of rootGroups')
-                ng-container(*ngTemplateOutlet='recursiveGroup; context: {$implicit: group, depth: 0}')
+                ng-container(*ngTemplateOutlet='recursiveVerticalGroup; context: {$implicit: group, depth: 0}')
 
-            ng-template(#recursiveGroup let-group let-depth='depth')
+            ng-template(#recursiveVerticalGroup let-group let-depth='depth')
                 a.tree-item(
                     (click)='toggleGroupCollapse(group)',
                     [style.paddingLeft.px]='depth * 20',
@@ -29,21 +29,73 @@
                 ng-container(*ngIf='!group.collapsed')
                     ng-container(*ngFor='let profile of group.profiles')
                         a.tree-item(
+                            (click)='selectProfile(profile)',
                             (dblclick)='launchProfile(profile)',
+                            [class.active]='workspace.selectedProfileId === profile.id',
                             [style.paddingLeft.px]='(depth + 1) * 20',
                             (contextmenu)='profileContextMenu(profile, $event)',
                             href='#'
                         )
                             .fw-20
                                 profile-icon.ms-1([icon]='profile.icon', [color]='profile.color')
-                            span.ms-2.no-wrap {{ profile.name }}
+                            span.ms-2.no-wrap.me-auto {{ profile.name }}
+
+                            span.session-count(*ngIf='workspace.getOpenTabCount(profile.id)') {{workspace.getOpenTabCount(profile.id)}}
 
                             .actions
                                 .action((click)='launchProfile(profile)')
                                     .fa.fa-fw.fas.fa-play
 
                     ng-container(*ngFor='let child of group.children')
-                        ng-container(*ngTemplateOutlet='recursiveGroup; context: {$implicit: child, depth: depth + 1}')
+                        ng-container(*ngTemplateOutlet='recursiveVerticalGroup; context: {$implicit: child, depth: depth + 1}')
+
+.horizontal-profile-menu.d-flex.align-items-center(*ngIf='!isVertical')
+    input.form-control.form-control-sm(
+        type='text',
+        [(ngModel)]='filter',
+        [placeholder]='"Filter"|translate',
+        (ngModelChange)='onFilterChange()'
+    )
+
+    .profile-groups.d-flex.align-items-stretch
+        .profile-group-menu(
+            *ngFor='let group of rootGroups',
+            ngbDropdown,
+            container='body'
+        )
+            button.btn.btn-secondary.profile-group-button(
+                ngbDropdownToggle,
+                [class.active]='groupContainsSelectedProfile(group)',
+                (contextmenu)='groupContextMenu(group, $event)'
+            )
+                profile-icon([icon]='group.icon ?? "far fa-folder"', [color]='group?.color')
+                span {{ group.name || ("Ungrouped"|translate) }}
+
+            .profile-menu-dropdown(ngbDropdownMenu)
+                ng-container(*ngTemplateOutlet='recursiveHorizontalGroup; context: {$implicit: group, depth: 0}')
+
+    ng-template(#recursiveHorizontalGroup let-group let-depth='depth')
+        .dropdown-header(*ngIf='depth > 0', [style.paddingLeft.px]='12 + depth * 12')
+            profile-icon.me-2([icon]='group.icon ?? "far fa-folder"', [color]='group?.color')
+            span {{ group.name || ("Ungrouped"|translate) }}
+
+        button.dropdown-item.profile-menu-item(
+            *ngFor='let profile of group.profiles',
+            [class.active]='workspace.selectedProfileId === profile.id',
+            [style.paddingLeft.px]='12 + depth * 12',
+            (click)='selectProfile(profile)',
+            (dblclick)='launchProfile(profile)',
+            (contextmenu)='profileContextMenu(profile, $event)'
+        )
+            profile-icon.me-2([icon]='profile.icon', [color]='profile.color')
+            span.me-auto {{ profile.name }}
+            span.session-count(*ngIf='workspace.getOpenTabCount(profile.id)') {{workspace.getOpenTabCount(profile.id)}}
+            i.fas.fa-play.ms-3((click)='$event.stopPropagation(); launchProfile(profile)')
+
+        ng-container(*ngFor='let child of group.children')
+            ng-container(*ngTemplateOutlet='recursiveHorizontalGroup; context: {$implicit: child, depth: depth + 1}')
+
 .grabber(
+    *ngIf='isVertical',
     (mousedown)="startResize($event)"
 )

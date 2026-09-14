@@ -7,6 +7,7 @@ import FuzzySearch from 'fuzzy-search'
 import { ConfigService } from '../services/config.service'
 import { ProfilesService } from '../services/profiles.service'
 import { AppService } from '../services/app.service'
+import { ProfileWorkspaceService } from '../services/profileWorkspace.service'
 import { PlatformService } from '../api/platform'
 import { ProfileProvider } from '../api/index'
 import { PartialProfileGroup, ProfileGroup, PartialProfile, Profile } from '../index'
@@ -29,7 +30,7 @@ export class ProfileTreeComponent extends BaseComponent {
 
     filteredProfiles: PartialProfile<Profile>[] = []
     @Input() filter = ''
-
+    @Input() orientation = 'left'
 
     panelMinWidth = 200
     panelMaxWidth = 600
@@ -45,6 +46,7 @@ export class ProfileTreeComponent extends BaseComponent {
         private profilesService: ProfilesService,
         private translate: TranslateService,
         private ngbModal: NgbModal,
+        public workspace: ProfileWorkspaceService,
     ) {
         super()
     }
@@ -196,7 +198,16 @@ export class ProfileTreeComponent extends BaseComponent {
     }
 
     async launchProfile<P extends Profile> (profile: PartialProfile<P>): Promise<any> {
+        if (profile.id) {
+            this.workspace.selectProfile(profile.id)
+        }
         return this.profilesService.launchProfile(profile)
+    }
+
+    selectProfile (profile: PartialProfile<Profile>): void {
+        if (profile.id) {
+            this.workspace.selectProfile(profile.id)
+        }
     }
 
     async onFilterChange (): Promise<void> {
@@ -235,6 +246,7 @@ export class ProfileTreeComponent extends BaseComponent {
 
     ////// RESIZING //////
     startResize (event: MouseEvent): void {
+        if (!this.isVertical) { return }
         this.panelIsResizing = true
         this.panelStartX = event.clientX
         this.panelStartWidth = this.panelWidth
@@ -244,7 +256,7 @@ export class ProfileTreeComponent extends BaseComponent {
     @HostListener('document:mousemove', ['$event'])
     onMouseMove (event: MouseEvent): void {
         if (!this.panelIsResizing) { return }
-        const delta = event.clientX - this.panelStartX
+        const delta = this.orientation === 'right' ? this.panelStartX - event.clientX : event.clientX - this.panelStartX
         const width = Math.min(Math.max(this.panelMinWidth, this.panelStartWidth + delta), this.panelMaxWidth)
         this.panelWidth = width
         window.localStorage.profileTreeWidth = width
@@ -256,7 +268,20 @@ export class ProfileTreeComponent extends BaseComponent {
         return true
     }
 
+    get isVertical (): boolean {
+        return this.orientation === 'left' || this.orientation === 'right'
+    }
+
+    @HostBinding('class.vertical') get verticalClass (): boolean { return this.isVertical }
+    @HostBinding('class.horizontal') get horizontalClass (): boolean { return !this.isVertical }
+    @HostBinding('class.on-right') get rightClass (): boolean { return this.orientation === 'right' }
+    @HostBinding('class.on-bottom') get bottomClass (): boolean { return this.orientation === 'bottom' }
+
     @HostBinding('style.width.px')
+    get hostWidth (): number|null {
+        return this.isVertical ? this.panelWidth : null
+    }
+
     get panelWidth (): number {
         return this.panelInternalWidth
     }
@@ -269,6 +294,11 @@ export class ProfileTreeComponent extends BaseComponent {
     toggleGroupCollapse (group: PartialProfileGroup<CollapsableProfileGroup>): void {
         group.collapsed = !group.collapsed
         this.saveProfileGroupCollapse(group)
+    }
+
+    groupContainsSelectedProfile (group: PartialProfileGroup<CollapsableProfileGroup>): boolean {
+        return !!group.profiles?.some(profile => profile.id === this.workspace.selectedProfileId)
+            || !!group.children?.some(child => this.groupContainsSelectedProfile(child))
     }
 
     private saveProfileGroupCollapse (group: PartialProfileGroup<CollapsableProfileGroup>): void {

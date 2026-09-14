@@ -1,11 +1,96 @@
 :host {
     background-color: var(--theme-bg-more-2);
     position: relative;
+    flex: none;
+}
+
+:host(.vertical) {
+    height: 100%;
     border-right: 1px solid var(--theme-secondary);
+}
+
+:host(.vertical.on-right) {
+    border-right: 0;
+    border-left: 1px solid var(--theme-secondary);
+}
+
+:host(.horizontal) {
+    width: 100%;
+    height: var(--tabs-height);
+    border-bottom: 1px solid var(--theme-secondary);
+}
+
+:host(.horizontal.on-bottom) {
+    border-bottom: 0;
+    border-top: 1px solid var(--theme-secondary);
 }
 
 input {
     border: 1px solid var(--theme-secondary);
+}
+
+.horizontal-profile-menu {
+    height: 100%;
+    min-width: 0;
+    padding: 4px 8px;
+    gap: 6px;
+
+    > input {
+        flex: 0 0 180px;
+        width: 180px;
+    }
+
+    .profile-groups {
+        height: 100%;
+        min-width: 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .profile-group-menu {
+        flex: none;
+    }
+
+    .profile-group-button {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        border: 0;
+        border-radius: 3px;
+        white-space: nowrap;
+
+        &.active {
+            background: var(--theme-primary);
+            color: var(--theme-secondary);
+        }
+    }
+}
+
+::ng-deep .profile-menu-dropdown {
+    max-height: min(70vh, 600px);
+    min-width: 220px;
+    overflow-y: auto;
+
+    .profile-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+
+        profile-icon {
+            width: 15px;
+            height: 15px;
+        }
+
+        .session-count {
+            min-width: 20px;
+            padding: 0 5px;
+            text-align: center;
+            font-size: .7rem;
+            border-radius: 8px;
+            background-color: var(--theme-secondary);
+        }
+    }
 }
 
 .profile-tree {
@@ -43,6 +128,20 @@ input {
             .actions {
                 display: flex;
             }
+        }
+
+        &.active {
+            background-color: var(--theme-primary);
+            color: var(--theme-secondary);
+        }
+
+        .session-count {
+            min-width: 20px;
+            padding: 0 5px;
+            text-align: center;
+            font-size: .7rem;
+            border-radius: 8px;
+            background-color: var(--theme-secondary);
         }
 
         .actions {
@@ -87,6 +186,10 @@ input {
     }
 }
 
+:host(.mac-horizontal-inset) .horizontal-profile-menu {
+    padding-left: calc(70px + 15px * var(--spaciness));
+}
+
 .grabber {
     position: absolute;
     z-index: 1;
@@ -99,4 +202,9 @@ input {
     top: 50%;
     right: -4px;
     cursor: col-resize;
+}
+
+:host(.on-right) .grabber {
+    right: auto;
+    left: -4px;
 }

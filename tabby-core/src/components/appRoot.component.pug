@@ -5,20 +5,30 @@ title-bar(
   [class.inset]='hostApp.platform == Platform.macOS && !hostWindow.isFullscreen'
 )
 
-.window.h-100.d-flex
+.window.h-100.d-flex(
+    [class.profile-menu-top]='config.store.showProfileTree && profileMenuLocation == "top"',
+    [class.profile-menu-bottom]='config.store.showProfileTree && profileMenuLocation == "bottom"',
+    [class.profile-menu-right]='config.store.showProfileTree && profileMenuLocation == "right"'
+)
     profile-tree(
         *ngIf='ready && config.store.showProfileTree',
+        [orientation]='profileMenuLocation',
         [class.mac-inset]='hostApp.platform == Platform.macOS \
         && !hostWindow.isFullscreen \
-        && config.store.appearance.frame == "thin"'
+        && config.store.appearance.frame == "thin" \
+        && profileMenuLocation == "left"',
+        [class.mac-horizontal-inset]='hostApp.platform == Platform.macOS \
+        && !hostWindow.isFullscreen \
+        && config.store.appearance.frame == "thin" \
+        && profileMenuLocation == "top"'
     )
 
     .content.main.h-100(
         *ngIf='ready',
-        [class.tabs-on-top]='config.store.appearance.tabsLocation == "top" || config.store.appearance.tabsLocation == "left" || config.store.appearance.tabsLocation == "right"',
-        [class.tabs-on-left]='hasVerticalTabs() && config.store.appearance.tabsLocation == "left"',
+        [class.tabs-on-top]='tabsLocation == "top" || tabsLocation == "left" || tabsLocation == "right"',
+        [class.tabs-on-left]='hasVerticalTabs() && tabsLocation == "left"',
         [class.tabs-titlebar-enabled]='isTitleBarNeeded()',
-        [class.tabs-on-right]='hasVerticalTabs() && config.store.appearance.tabsLocation == "right"',
+        [class.tabs-on-right]='hasVerticalTabs() && tabsLocation == "right"',
     )
         .tab-bar(
             *ngIf='!hostWindow.isFullscreen || config.store.appearance.tabsInFullscreen',
@@ -28,16 +38,16 @@ title-bar(
             .inset.background(*ngIf='hostApp.platform == Platform.macOS \
             && !hostWindow.isFullscreen \
             && config.store.appearance.frame == "thin" \
-            && (config.store.appearance.tabsLocation == "top" || config.store.appearance.tabsLocation == "left") \
-            && !config.store.showProfileTree')
+            && (tabsLocation == "top" || tabsLocation == "left") \
+            && (!config.store.showProfileTree || profileMenuLocation != "left")')
             .tabs(
                 cdkDropList,
-                [cdkDropListOrientation]='(config.store.appearance.tabsLocation == "top" || config.store.appearance.tabsLocation == "bottom") ? "horizontal" : "vertical"',
+                [cdkDropListOrientation]='(tabsLocation == "top" || tabsLocation == "bottom") ? "horizontal" : "vertical"',
                 (cdkDropListDropped)='onTabsReordered($event)',
                 cdkAutoDropGroup='app-tabs'
             )
                 tab-header(
-                    *ngFor='let tab of app.tabs; let idx = index',
+                    *ngFor='let tab of visibleTabs; let idx = index',
                     [index]='idx',
                     [tab]='tab',
                     [active]='tab == app.activeTab',
@@ -47,6 +57,13 @@ title-bar(
                     [class.fully-draggable]='hostApp.platform !== Platform.macOS',
                     [ngbTooltip]='tab.customTitle || tab.title'
                 )
+
+            button.btn.btn-secondary.btn-tab-bar.profile-new-session(
+                *ngIf='config.store.showProfileTree && workspace.selectedProfileId',
+                [ngbTooltip]='"New connection"|translate',
+                (click)='launchSelectedProfile()'
+            )
+                i.fas.fa-plus
 
             .btn-group.background
                 .d-flex(
@@ -77,7 +94,7 @@ title-bar(
             .btn-space.background(
                 [class.persistent]='config.store.appearance.frame == "thin"',
                 [class.drag]='config.store.appearance.frame == "thin" \
-                && ((config.store.appearance.tabsLocation !== "left" && config.store.appearance.tabsLocation !== "right") || hostApp.platform !== Platform.macOS)'
+                && ((tabsLocation !== "left" && tabsLocation !== "right") || hostApp.platform !== Platform.macOS)'
             )
 
             .btn-group.background
@@ -98,16 +115,24 @@ title-bar(
 
             window-controls.background(
                 *ngIf='config.store.appearance.frame == "thin" \
-                && config.store.appearance.tabsLocation !== "left" \
-                && config.store.appearance.tabsLocation !== "right" \
+                && tabsLocation !== "left" \
+                && tabsLocation !== "right" \
                 && hostApp.platform == Platform.Linux',
             )
 
             div.window-controls-spacer(
-                *ngIf='config.store.appearance.frame == "thin" && (hostApp.platform == Platform.Windows) && (config.store.appearance.tabsLocation == "top")',
+                *ngIf='config.store.appearance.frame == "thin" && (hostApp.platform == Platform.Windows) && (tabsLocation == "top")',
             )
         .content
             start-page.content-tab.content-tab-active(*ngIf='ready && app.tabs.length == 0')
+
+            .profile-workspace-empty.content-tab.content-tab-active(
+                *ngIf='ready && config.store.showProfileTree && workspace.selectedProfileId && visibleTabs.length == 0'
+            )
+                i.fas.fa-terminal.fa-3x.mb-3
+                button.btn.btn-primary((click)='launchSelectedProfile()')
+                    i.fas.fa-plus.me-2
+                    span(translate) New connection
 
             tab-body.content-tab(
                 #tabBodies,

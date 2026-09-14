@@ -177,6 +177,14 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                 button.btn.btn-success.ms-4(*ngIf='!hasSavedPassword', (click)='setPassword()')
                     i.fas.fa-key
                     span(translate) Set password
+                ng-container(*ngIf='hasSavedPassword')
+                    button.btn.btn-link.ms-2(
+                        type='button',
+                        *ngFor='let action of getPasswordActions()',
+                        [ngbTooltip]='action.title',
+                        (click)='action.run()'
+                    )
+                        i([class]='action.icon')
                 button.btn.btn-danger.ms-4(*ngIf='hasSavedPassword', (click)='clearSavedPassword()')
                     i.fas.fa-trash-alt
                     span(translate) Forget
@@ -187,6 +195,13 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     .list-group-item.d-flex.align-items-center.p-1.ps-3(*ngFor='let path of profile.options.privateKeys')
                         i.fas.fa-key
                         .no-wrap.me-auto {{path}}
+                        button.btn.btn-link(
+                            type='button',
+                            *ngFor='let action of getPrivateKeyActions(path)',
+                            [ngbTooltip]='action.title',
+                            (click)='action.run()'
+                        )
+                            i([class]='action.icon')
                         button.btn.btn-link((click)='removePrivateKey(path)')
                             i.fas.fa-trash
                 button.btn.btn-secondary((click)='addPrivateKey()')
