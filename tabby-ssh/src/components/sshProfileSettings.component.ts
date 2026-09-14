@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Component, Inject, Optional, ViewChild } from '@angular/core'
+import { Component, Inject, OnDestroy, Optional, ViewChild } from '@angular/core'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { firstBy } from 'thenby'
 
@@ -14,8 +14,9 @@ import { SSHProfilesService } from '../profiles'
 /** @hidden */
 @Component({
     templateUrl: './sshProfileSettings.component.pug',
+    styleUrls: ['./sshProfileSettings.component.scss'],
 })
-export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSHProfile, SSHProfilesService> {
+export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSHProfile, SSHProfilesService>, OnDestroy {
     Platform = Platform
     profile: ProxifiedConfig<FullyDefined<SSHProfile>>
     hasSavedPassword: boolean
@@ -28,6 +29,8 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     passwordActions: SSHProfileSettingsAction[] = []
     @ViewChild('loginScriptsSettings') loginScriptsSettings: LoginScriptsSettingsComponent|null
     private privateKeyActions = new Map<string, SSHProfileSettingsAction[]>()
+    private revealedSettingsActions = new Map<SSHProfileSettingsAction, string|null>()
+    private loadingSettingsActions = new Set<SSHProfileSettingsAction>()
 
     constructor (
         public hostApp: HostAppService,
@@ -69,6 +72,10 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         }
     }
 
+    ngOnDestroy (): void {
+        this.revealedSettingsActions.clear()
+    }
+
     getJumpHostLabel (p: PartialProfile<SSHProfile>) {
         return p.group ? `${this.profilesService.resolveProfileGroupName(p.group)} / ${p.name}` : p.name
     }
@@ -103,7 +110,37 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     async runSettingsAction (action: SSHProfileSettingsAction, event: MouseEvent): Promise<void> {
         event.preventDefault()
         event.stopPropagation()
-        await action.run()
+        if (!action.reveal) {
+            await action.run?.()
+            return
+        }
+        if (this.revealedSettingsActions.has(action)) {
+            this.clearSettingsAction(action)
+            return
+        }
+
+        this.loadingSettingsActions.add(action)
+        try {
+            this.revealedSettingsActions.set(action, await action.reveal())
+        } finally {
+            this.loadingSettingsActions.delete(action)
+        }
+    }
+
+    isSettingsActionRevealed (action: SSHProfileSettingsAction): boolean {
+        return this.revealedSettingsActions.has(action)
+    }
+
+    isSettingsActionLoading (action: SSHProfileSettingsAction): boolean {
+        return this.loadingSettingsActions.has(action)
+    }
+
+    getSettingsActionValue (action: SSHProfileSettingsAction): string|null {
+        return this.revealedSettingsActions.get(action) ?? null
+    }
+
+    private clearSettingsAction (action: SSHProfileSettingsAction): void {
+        this.revealedSettingsActions.delete(action)
     }
 
     async addPrivateKey () {
@@ -117,6 +154,9 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     }
 
     removePrivateKey (path: string) {
+        for (const action of this.privateKeyActions.get(path) ?? []) {
+            this.clearSettingsAction(action)
+        }
         this.privateKeyActions.delete(path)
         this.profile.options.privateKeys = this.profile.options.privateKeys.filter(x => x !== path)
     }

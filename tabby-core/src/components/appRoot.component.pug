@@ -74,7 +74,7 @@ title-bar(
                 [class.drag]='config.store.appearance.frame == "thin"'
             )
         .content
-            start-page.content-tab.content-tab-active(*ngIf='ready && app.tabs.length == 0')
+            start-page.content-tab.content-tab-active(*ngIf='ready && app.tabs.length == 0 && !config.store.showProfileTree')
 
             .profile-workspace-empty.content-tab.content-tab-active(
                 *ngIf='ready && config.store.showProfileTree && workspace.selectedProfileId && visibleTabs.length == 0'
