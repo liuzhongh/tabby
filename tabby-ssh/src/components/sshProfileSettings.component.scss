@@ -10,6 +10,19 @@
     }
 }
 
+.password-form-line.has-secret-action {
+    flex-wrap: wrap;
+
+    > .header {
+        flex: 0 0 100%;
+        margin-right: 0;
+    }
+
+    > .inline-secret {
+        margin-left: 0;
+    }
+}
+
 .inline-secret + .btn,
 .form-line > .btn,
 .list-group-item .btn {

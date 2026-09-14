@@ -169,21 +169,23 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                         i.far.fa-keyboard
                         .m-0(translate) Interactive
 
-            .form-line(*ngIf='profile.options.user && (!profile.options.auth || profile.options.auth === "password")')
+            .form-line.password-form-line(
+                *ngIf='profile.options.user && (!profile.options.auth || profile.options.auth === "password")',
+                [class.has-secret-action]='hasSavedPassword && passwordActions.length > 0'
+            )
                 .header
                     .title(translate) Password
                     .description(*ngIf='!hasSavedPassword', translate) Save a password in the keychain
-                    .description(*ngIf='hasSavedPassword', translate) There is a saved password for this connection
                 button.btn.btn-success.ms-4(*ngIf='!hasSavedPassword', (click)='setPassword()')
                     i.fas.fa-key
                     span(translate) Set password
                 ng-container(*ngIf='hasSavedPassword')
                     ng-container(*ngFor='let action of passwordActions')
-                        .inline-secret(*ngIf='isSettingsActionRevealed(action)')
+                        .inline-secret
                             input.form-control.form-control-sm.selectable.no-drag(
-                                type='text',
+                                [type]='isSettingsActionRevealed(action) ? "text" : "password"',
                                 readonly,
-                                [value]='getSettingsActionValue(action) || ""',
+                                [value]='isSettingsActionRevealed(action) ? (getSettingsActionValue(action) || "") : "password"',
                                 [placeholder]='action.emptyValueText || ""'
                             )
                         button.btn.btn-link.ms-2(
