@@ -192,7 +192,11 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                             (click)='runSettingsAction(action, $event)'
                         )
                             i([class]='isSettingsActionLoading(action) ? "fas fa-spinner fa-spin" : (isSettingsActionRevealed(action) ? "fas fa-eye-slash" : action.icon)')
-                button.btn.btn-danger.ms-4(*ngIf='hasSavedPassword', (click)='clearSavedPassword()')
+                button.btn.btn-danger.ms-4.password-forget-button(
+                    *ngIf='hasSavedPassword',
+                    [class.has-secret-action]='passwordActions.length > 0',
+                    (click)='clearSavedPassword()'
+                )
                     i.fas.fa-trash-alt
                     span(translate) Forget
 
