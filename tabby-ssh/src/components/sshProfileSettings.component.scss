@@ -4,6 +4,12 @@
     margin-left: .5rem;
 }
 
+.inline-secret + .btn,
+.form-line > .btn,
+.list-group-item .btn {
+    flex: none;
+}
+
 .private-key-passphrase {
     padding-right: .5rem;
 }

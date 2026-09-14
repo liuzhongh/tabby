@@ -179,12 +179,6 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     span(translate) Set password
                 ng-container(*ngIf='hasSavedPassword')
                     ng-container(*ngFor='let action of passwordActions')
-                        button.btn.btn-link.ms-2(
-                            type='button',
-                            [ngbTooltip]='isSettingsActionRevealed(action) ? ("Hide"|translate) : action.title',
-                            (click)='runSettingsAction(action, $event)'
-                        )
-                            i([class]='isSettingsActionLoading(action) ? "fas fa-spinner fa-spin" : (isSettingsActionRevealed(action) ? "fas fa-eye-slash" : action.icon)')
                         .inline-secret(*ngIf='isSettingsActionRevealed(action)')
                             input.form-control.form-control-sm.selectable.no-drag(
                                 type='text',
@@ -192,6 +186,12 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                 [value]='getSettingsActionValue(action) || ""',
                                 [placeholder]='action.emptyValueText || ""'
                             )
+                        button.btn.btn-link.ms-2(
+                            type='button',
+                            [ngbTooltip]='isSettingsActionRevealed(action) ? ("Hide"|translate) : action.title',
+                            (click)='runSettingsAction(action, $event)'
+                        )
+                            i([class]='isSettingsActionLoading(action) ? "fas fa-spinner fa-spin" : (isSettingsActionRevealed(action) ? "fas fa-eye-slash" : action.icon)')
                 button.btn.btn-danger.ms-4(*ngIf='hasSavedPassword', (click)='clearSavedPassword()')
                     i.fas.fa-trash-alt
                     span(translate) Forget
