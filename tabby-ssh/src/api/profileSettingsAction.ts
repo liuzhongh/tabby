@@ -5,6 +5,7 @@ export interface SSHProfileSettingsAction {
     title: string
     run?: () => void|Promise<void>
     reveal?: () => Promise<string|null>
+    save?: (value: string) => void|Promise<void>
     emptyValueText?: string
 }
 

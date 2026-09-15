@@ -183,19 +183,41 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     ng-container(*ngFor='let action of passwordActions')
                         .inline-secret
                             input.form-control.form-control-sm.selectable.no-drag(
-                                [type]='isSettingsActionRevealed(action) ? "text" : "password"',
-                                readonly,
-                                [value]='isSettingsActionRevealed(action) ? (getSettingsActionValue(action) || "") : "password"',
-                                [placeholder]='action.emptyValueText || ""'
+                                [type]='isSettingsActionVisible(action) ? "text" : "password"',
+                                [readonly]='!isSettingsActionEditing(action)',
+                                [disabled]='isSettingsActionSaving(action)',
+                                [value]='getSettingsActionInputValue(action)',
+                                [placeholder]='isSettingsActionEditing(action) ? action.title : (action.emptyValueText || "")',
+                                [attr.aria-label]='action.title',
+                                autocomplete='new-password',
+                                (click)='beginSettingsActionEdit(action, $event)',
+                                (input)='updateSettingsActionDraft(action, $event)',
+                                (keydown.enter)='saveSettingsAction(action, $event)',
+                                (keydown.escape)='cancelSettingsActionEdit(action, $event)'
                             )
                         button.btn.btn-link.ms-2(
                             type='button',
-                            [ngbTooltip]='isSettingsActionRevealed(action) ? ("Hide"|translate) : action.title',
+                            [ngbTooltip]='isSettingsActionVisible(action) ? ("Hide"|translate) : action.title',
                             (click)='runSettingsAction(action, $event)'
                         )
-                            i([class]='isSettingsActionLoading(action) ? "fas fa-spinner fa-spin" : (isSettingsActionRevealed(action) ? "fas fa-eye-slash" : action.icon)')
+                            i([class]='isSettingsActionLoading(action) ? "fas fa-spinner fa-spin" : (isSettingsActionVisible(action) ? "fas fa-eye-slash" : action.icon)')
+                        ng-container(*ngIf='isSettingsActionEditing(action)')
+                            button.btn.btn-link.ms-1.text-success(
+                                type='button',
+                                [disabled]='!getSettingsActionInputValue(action) || isSettingsActionSaving(action)',
+                                [ngbTooltip]='"Save"|translate',
+                                (click)='saveSettingsAction(action, $event)'
+                            )
+                                i([class]='isSettingsActionSaving(action) ? "fas fa-spinner fa-spin" : "fas fa-check"')
+                            button.btn.btn-link.ms-1(
+                                type='button',
+                                [disabled]='isSettingsActionSaving(action)',
+                                [ngbTooltip]='"Cancel"|translate',
+                                (click)='cancelSettingsActionEdit(action, $event)'
+                            )
+                                i.fas.fa-times
                 button.btn.btn-danger.ms-4.password-forget-button(
-                    *ngIf='hasSavedPassword',
+                    *ngIf='hasSavedPassword && !isAnySettingsActionEditing(passwordActions)',
                     [class.has-secret-action]='passwordActions.length > 0',
                     (click)='clearSavedPassword()'
                 )
@@ -212,21 +234,44 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                             button.btn.btn-link(
                                 type='button',
                                 *ngFor='let action of getPrivateKeyActions(path)',
-                                [ngbTooltip]='isSettingsActionRevealed(action) ? ("Hide"|translate) : action.title',
+                                [ngbTooltip]='isSettingsActionVisible(action) ? ("Hide"|translate) : action.title',
                                 (click)='runSettingsAction(action, $event)'
                             )
-                                i([class]='isSettingsActionLoading(action) ? "fas fa-spinner fa-spin" : (isSettingsActionRevealed(action) ? "fas fa-eye-slash" : action.icon)')
+                                i([class]='isSettingsActionLoading(action) ? "fas fa-spinner fa-spin" : (isSettingsActionVisible(action) ? "fas fa-eye-slash" : action.icon)')
                             button.btn.btn-link((click)='removePrivateKey(path)')
                                 i.fas.fa-trash
                         ng-container(*ngFor='let action of getPrivateKeyActions(path)')
                             .private-key-passphrase.mt-1(*ngIf='isSettingsActionRevealed(action)')
                                 label.form-label.mb-1(translate) Private key passphrase
-                                input.form-control.form-control-sm.selectable.no-drag(
-                                    type='text',
-                                    readonly,
-                                    [value]='getSettingsActionValue(action) || ""',
-                                    [placeholder]='action.emptyValueText || ""'
-                                )
+                                .private-key-secret-editor.d-flex.align-items-center
+                                    input.form-control.form-control-sm.selectable.no-drag(
+                                        [type]='isSettingsActionVisible(action) ? "text" : "password"',
+                                        [readonly]='!isSettingsActionEditing(action)',
+                                        [disabled]='isSettingsActionSaving(action)',
+                                        [value]='getSettingsActionInputValue(action)',
+                                        [placeholder]='isSettingsActionEditing(action) ? action.title : (action.emptyValueText || "")',
+                                        [attr.aria-label]='action.title',
+                                        autocomplete='new-password',
+                                        (click)='beginSettingsActionEdit(action, $event)',
+                                        (input)='updateSettingsActionDraft(action, $event)',
+                                        (keydown.enter)='saveSettingsAction(action, $event)',
+                                        (keydown.escape)='cancelSettingsActionEdit(action, $event)'
+                                    )
+                                    ng-container(*ngIf='isSettingsActionEditing(action)')
+                                        button.btn.btn-link.ms-1.text-success(
+                                            type='button',
+                                            [disabled]='!getSettingsActionInputValue(action) || isSettingsActionSaving(action)',
+                                            [ngbTooltip]='"Save"|translate',
+                                            (click)='saveSettingsAction(action, $event)'
+                                        )
+                                            i([class]='isSettingsActionSaving(action) ? "fas fa-spinner fa-spin" : "fas fa-check"')
+                                        button.btn.btn-link.ms-1(
+                                            type='button',
+                                            [disabled]='isSettingsActionSaving(action)',
+                                            [ngbTooltip]='"Cancel"|translate',
+                                            (click)='cancelSettingsActionEdit(action, $event)'
+                                        )
+                                            i.fas.fa-times
                 button.btn.btn-secondary((click)='addPrivateKey()')
                     i.fas.fa-folder-open
                     span(translate) Add a private key

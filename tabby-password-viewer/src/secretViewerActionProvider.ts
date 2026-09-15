@@ -19,6 +19,7 @@ export class SecretViewerActionProvider extends SSHProfileSettingsActionProvider
             title: this.translate.instant('Show password'),
             emptyValueText: this.translate.instant('No saved password'),
             reveal: async () => await this.passwords.loadPassword(profile) ?? profile.options.password,
+            save: value => this.passwords.savePassword(profile, value),
         }]
     }
 
@@ -27,14 +28,16 @@ export class SecretViewerActionProvider extends SSHProfileSettingsActionProvider
             icon: 'fas fa-eye',
             title: this.translate.instant('Private key passphrase'),
             emptyValueText: this.translate.instant('No saved passphrase'),
-            reveal: async (): Promise<string|null> => {
-                const resolvedPath = path
-                    .replaceAll('%h', profile.options.host)
-                    .replaceAll('%r', profile.options.user)
-                const contents = (await this.files.retrieveFile(resolvedPath)).toString('utf-8')
-                const hash = crypto.createHash('sha512').update(contents).digest('hex')
-                return this.passwords.loadPrivateKeyPassword(hash)
-            },
+            reveal: async (): Promise<string|null> => this.passwords.loadPrivateKeyPassword(await this.getPrivateKeyHash(profile, path)),
+            save: async value => this.passwords.savePrivateKeyPassword(await this.getPrivateKeyHash(profile, path), value),
         }]
+    }
+
+    private async getPrivateKeyHash (profile: SSHProfile, path: string): Promise<string> {
+        const resolvedPath = path
+            .replaceAll('%h', profile.options.host)
+            .replaceAll('%r', profile.options.user)
+        const contents = (await this.files.retrieveFile(resolvedPath)).toString('utf-8')
+        return crypto.createHash('sha512').update(contents).digest('hex')
     }
 }

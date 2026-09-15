@@ -31,6 +31,9 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     private privateKeyActions = new Map<string, SSHProfileSettingsAction[]>()
     private revealedSettingsActions = new Map<SSHProfileSettingsAction, string|null>()
     private loadingSettingsActions = new Set<SSHProfileSettingsAction>()
+    private editingSettingsActions = new Map<SSHProfileSettingsAction, string>()
+    private visibleEditingSettingsActions = new Set<SSHProfileSettingsAction>()
+    private savingSettingsActions = new Set<SSHProfileSettingsAction>()
 
     constructor (
         public hostApp: HostAppService,
@@ -74,6 +77,9 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
 
     ngOnDestroy (): void {
         this.revealedSettingsActions.clear()
+        this.editingSettingsActions.clear()
+        this.visibleEditingSettingsActions.clear()
+        this.savingSettingsActions.clear()
     }
 
     getJumpHostLabel (p: PartialProfile<SSHProfile>) {
@@ -96,6 +102,9 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     clearSavedPassword () {
         this.hasSavedPassword = false
         this.passwordStorage.deletePassword(this.profile)
+        for (const action of this.passwordActions) {
+            this.clearSettingsAction(action)
+        }
     }
 
     getPrivateKeyActions (path: string): SSHProfileSettingsAction[] {
@@ -110,6 +119,14 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     async runSettingsAction (action: SSHProfileSettingsAction, event: MouseEvent): Promise<void> {
         event.preventDefault()
         event.stopPropagation()
+        if (this.isSettingsActionEditing(action)) {
+            if (this.visibleEditingSettingsActions.has(action)) {
+                this.visibleEditingSettingsActions.delete(action)
+            } else {
+                this.visibleEditingSettingsActions.add(action)
+            }
+            return
+        }
         if (!action.reveal) {
             await action.run?.()
             return
@@ -135,12 +152,100 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         return this.loadingSettingsActions.has(action)
     }
 
+    isSettingsActionEditing (action: SSHProfileSettingsAction): boolean {
+        return this.editingSettingsActions.has(action)
+    }
+
+    isSettingsActionVisible (action: SSHProfileSettingsAction): boolean {
+        if (this.isSettingsActionEditing(action)) {
+            return this.visibleEditingSettingsActions.has(action)
+        }
+        return this.isSettingsActionRevealed(action)
+    }
+
+    isSettingsActionSaving (action: SSHProfileSettingsAction): boolean {
+        return this.savingSettingsActions.has(action)
+    }
+
+    isAnySettingsActionEditing (actions: SSHProfileSettingsAction[]): boolean {
+        return actions.some(action => this.isSettingsActionEditing(action))
+    }
+
+    getSettingsActionInputValue (action: SSHProfileSettingsAction): string {
+        if (this.isSettingsActionEditing(action)) {
+            return this.editingSettingsActions.get(action) ?? ''
+        }
+        if (this.isSettingsActionRevealed(action)) {
+            return this.getSettingsActionValue(action) ?? ''
+        }
+        return 'password'
+    }
+
+    async beginSettingsActionEdit (action: SSHProfileSettingsAction, event: MouseEvent): Promise<void> {
+        event.stopPropagation()
+        if (!action.save || this.isSettingsActionEditing(action) || this.isSettingsActionLoading(action)) {
+            return
+        }
+
+        const wasRevealed = this.isSettingsActionRevealed(action)
+        let value = this.getSettingsActionValue(action)
+        if (!wasRevealed && action.reveal) {
+            this.loadingSettingsActions.add(action)
+            try {
+                value = await action.reveal()
+            } finally {
+                this.loadingSettingsActions.delete(action)
+            }
+        }
+
+        this.editingSettingsActions.set(action, value ?? '')
+        if (wasRevealed) {
+            this.visibleEditingSettingsActions.add(action)
+        } else {
+            this.visibleEditingSettingsActions.delete(action)
+        }
+    }
+
+    updateSettingsActionDraft (action: SSHProfileSettingsAction, event: Event): void {
+        this.editingSettingsActions.set(action, (event.target as HTMLInputElement).value)
+    }
+
+    async saveSettingsAction (action: SSHProfileSettingsAction, event: Event): Promise<void> {
+        event.preventDefault()
+        event.stopPropagation()
+        const value = this.editingSettingsActions.get(action)
+        const save = action.save
+        if (!save || !value || this.isSettingsActionSaving(action)) {
+            return
+        }
+
+        this.savingSettingsActions.add(action)
+        try {
+            await save(value)
+            this.editingSettingsActions.delete(action)
+            this.visibleEditingSettingsActions.delete(action)
+            this.revealedSettingsActions.delete(action)
+        } finally {
+            this.savingSettingsActions.delete(action)
+        }
+    }
+
+    cancelSettingsActionEdit (action: SSHProfileSettingsAction, event: Event): void {
+        event.preventDefault()
+        event.stopPropagation()
+        this.editingSettingsActions.delete(action)
+        this.visibleEditingSettingsActions.delete(action)
+    }
+
     getSettingsActionValue (action: SSHProfileSettingsAction): string|null {
         return this.revealedSettingsActions.get(action) ?? null
     }
 
     private clearSettingsAction (action: SSHProfileSettingsAction): void {
         this.revealedSettingsActions.delete(action)
+        this.editingSettingsActions.delete(action)
+        this.visibleEditingSettingsActions.delete(action)
+        this.savingSettingsActions.delete(action)
     }
 
     async addPrivateKey () {
