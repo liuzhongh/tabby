@@ -33,7 +33,7 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     private loadingSettingsActions = new Set<SSHProfileSettingsAction>()
     private editingSettingsActions = new Map<SSHProfileSettingsAction, string>()
     private visibleEditingSettingsActions = new Set<SSHProfileSettingsAction>()
-    private savingSettingsActions = new Set<SSHProfileSettingsAction>()
+    savingSettings = false
 
     constructor (
         public hostApp: HostAppService,
@@ -79,7 +79,6 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         this.revealedSettingsActions.clear()
         this.editingSettingsActions.clear()
         this.visibleEditingSettingsActions.clear()
-        this.savingSettingsActions.clear()
     }
 
     getJumpHostLabel (p: PartialProfile<SSHProfile>) {
@@ -163,14 +162,6 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         return this.isSettingsActionRevealed(action)
     }
 
-    isSettingsActionSaving (action: SSHProfileSettingsAction): boolean {
-        return this.savingSettingsActions.has(action)
-    }
-
-    isAnySettingsActionEditing (actions: SSHProfileSettingsAction[]): boolean {
-        return actions.some(action => this.isSettingsActionEditing(action))
-    }
-
     getSettingsActionInputValue (action: SSHProfileSettingsAction): string {
         if (this.isSettingsActionEditing(action)) {
             return this.editingSettingsActions.get(action) ?? ''
@@ -210,33 +201,6 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         this.editingSettingsActions.set(action, (event.target as HTMLInputElement).value)
     }
 
-    async saveSettingsAction (action: SSHProfileSettingsAction, event: Event): Promise<void> {
-        event.preventDefault()
-        event.stopPropagation()
-        const value = this.editingSettingsActions.get(action)
-        const save = action.save
-        if (!save || !value || this.isSettingsActionSaving(action)) {
-            return
-        }
-
-        this.savingSettingsActions.add(action)
-        try {
-            await save(value)
-            this.editingSettingsActions.delete(action)
-            this.visibleEditingSettingsActions.delete(action)
-            this.revealedSettingsActions.delete(action)
-        } finally {
-            this.savingSettingsActions.delete(action)
-        }
-    }
-
-    cancelSettingsActionEdit (action: SSHProfileSettingsAction, event: Event): void {
-        event.preventDefault()
-        event.stopPropagation()
-        this.editingSettingsActions.delete(action)
-        this.visibleEditingSettingsActions.delete(action)
-    }
-
     getSettingsActionValue (action: SSHProfileSettingsAction): string|null {
         return this.revealedSettingsActions.get(action) ?? null
     }
@@ -245,7 +209,6 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         this.revealedSettingsActions.delete(action)
         this.editingSettingsActions.delete(action)
         this.visibleEditingSettingsActions.delete(action)
-        this.savingSettingsActions.delete(action)
     }
 
     async addPrivateKey () {
@@ -266,7 +229,7 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         this.profile.options.privateKeys = this.profile.options.privateKeys.filter(x => x !== path)
     }
 
-    save () {
+    async save () {
         for (const k of Object.values(SSHAlgorithmType)) {
             this.profile.options.algorithms[k] = Object.entries(this.algorithms[k])
                 .filter(([_, v]) => !!v)
@@ -287,6 +250,13 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         if (this.connectionMode !== 'httpProxy') {
             this.profile.options.httpProxyHost = null
             this.profile.options.httpProxyPort = null
+        }
+
+        this.savingSettings = true
+        try {
+            await Promise.all([...this.editingSettingsActions.entries()].map(([action, value]) => action.save?.(value)))
+        } finally {
+            this.savingSettings = false
         }
 
         this.loginScriptsSettings?.save()

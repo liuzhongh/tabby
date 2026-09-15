@@ -22,6 +22,7 @@ export class EditProfileModalComponent<P extends Profile, PP extends ProfileProv
     @Input() defaultsMode: 'enabled'|'group'|'disabled' = 'disabled'
     @Input() profileGroup: PartialProfileGroup<ProfileGroup> | undefined
     groups: PartialProfileGroup<ProfileGroup>[]
+    saving = false
     @ViewChild('placeholder', { read: ViewContainerRef }) placeholder: ViewContainerRef
 
     protected profile: FullyDefined<P> & ConfigProxy<FullyDefined<P>>
@@ -87,16 +88,24 @@ export class EditProfileModalComponent<P extends Profile, PP extends ProfileProv
             map(term => iconsClassList.filter(v => v.toLowerCase().includes(term.toLowerCase())).slice(0, 10)),
         )
 
-    save () {
+    async save () {
+        if (this.saving) {
+            return
+        }
+        this.saving = true
         if (!this.profileGroup) {
             this.profile.group = ''
         } else {
             this.profile.group = this.profileGroup.id
         }
 
-        this.settingsComponentInstance?.save?.()
-        this.profile.__cleanup()
-        this.modalInstance.close(this.partialProfile)
+        try {
+            await this.settingsComponentInstance?.save?.()
+            this.profile.__cleanup()
+            this.modalInstance.close(this.partialProfile)
+        } finally {
+            this.saving = false
+        }
     }
 
     cancel () {

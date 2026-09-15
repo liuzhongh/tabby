@@ -56,7 +56,7 @@ export type PartialProfileGroup<T extends ProfileGroup> = Omit<Omit<{
 
 export interface ProfileSettingsComponent<P extends Profile, PP extends ProfileProvider<P>> {
     profile: FullyDefined<P>
-    save?: () => void
+    save?: () => void|Promise<void>
 }
 
 export abstract class ProfileProvider<P extends Profile> {
