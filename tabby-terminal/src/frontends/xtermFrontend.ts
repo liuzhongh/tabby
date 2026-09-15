@@ -25,26 +25,6 @@ const COLOR_NAMES = [
     'brightBlack', 'brightRed', 'brightGreen', 'brightYellow', 'brightBlue', 'brightMagenta', 'brightCyan', 'brightWhite',
 ]
 
-// Fcitx5 applies Chinese punctuation during the browser's default text-input
-// processing. If xterm handles these keys on keydown, it calls preventDefault()
-// before Fcitx5 can emit the converted keypress/input event.
-const LINUX_IME_TEXT_KEY_CODES = new Set([
-    'Backquote',
-    'BracketLeft',
-    'BracketRight',
-    'Comma',
-    'Period',
-    'Quote',
-    'Semicolon',
-])
-
-function isIMETextKey (event: KeyboardEvent): boolean {
-    if (event.ctrlKey || event.altKey || event.metaKey) {
-        return false
-    }
-    return LINUX_IME_TEXT_KEY_CODES.has(event.code) || event.code === 'Space' && event.shiftKey
-}
-
 // How many times to recreate the WebGL renderer after a lost GPU context
 // before giving up and letting xterm fall back to its DOM renderer.
 const MAX_WEBGL_RECOVERY_ATTEMPTS = 3
@@ -259,13 +239,6 @@ export class XTermFrontend extends Frontend {
             const handled = keyboardEventHandler('keydown', event)
             if (!handled) {
                 // a hotkey claimed the event and already cancelled it
-                return false
-            }
-
-            if (this.hostApp.platform === Platform.Linux && isIMETextKey(event)) {
-                // Returning false keeps xterm from sending/cancelling keydown.
-                // The resulting keypress/input event contains either the IME
-                // commit string or the original character when IME is inactive.
                 return false
             }
 
