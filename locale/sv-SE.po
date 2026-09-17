@@ -2647,3 +2647,9 @@ msgstr "Fäll ihop grupp"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Redigera grupp"
+
+msgid "Remember"
+msgstr "Kom ihåg"
+
+msgid "OK"
+msgstr "OK"

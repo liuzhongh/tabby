@@ -2651,3 +2651,9 @@ msgstr "Collapse group"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Edit group"
+
+msgid "Remember"
+msgstr "Remember"
+
+msgid "OK"
+msgstr "OK"

@@ -2647,3 +2647,9 @@ msgstr "Gruppe einklappen"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Gruppe bearbeiten"
+
+msgid "Remember"
+msgstr "Merken"
+
+msgid "OK"
+msgstr "OK"

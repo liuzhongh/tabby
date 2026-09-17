@@ -2647,3 +2647,9 @@ msgstr "Réduire le groupe"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Modifier le groupe"
+
+msgid "Remember"
+msgstr "Mémoriser"
+
+msgid "OK"
+msgstr "OK"

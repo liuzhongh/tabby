@@ -2647,3 +2647,9 @@ msgstr "Recolher grupo"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Editar grupo"
+
+msgid "Remember"
+msgstr "Lembrar"
+
+msgid "OK"
+msgstr "OK"

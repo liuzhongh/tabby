@@ -12,8 +12,9 @@
         checkbox(
             *ngIf='showRememberCheckbox',
             [(ngModel)]='remember',
-            text='Remember'
+            [text]='"Remember"|translate'
         )
         button.btn.btn-primary.ms-auto(
             (click)='ok()',
+            translate
         ) OK

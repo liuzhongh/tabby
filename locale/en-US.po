@@ -87,6 +87,12 @@ msgstr "Collapse group"
 msgid "Edit group"
 msgstr "Edit group"
 
+msgid "Remember"
+msgstr "Remember"
+
+msgid "OK"
+msgstr "OK"
+
 #: tabby-password-viewer/src/secretViewerModal.component.pug
 msgid "Password"
 msgstr "Password"

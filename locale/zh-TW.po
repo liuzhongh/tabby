@@ -2647,3 +2647,9 @@ msgstr "收合群組"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "編輯群組"
+
+msgid "Remember"
+msgstr "記住"
+
+msgid "OK"
+msgstr "確定"

@@ -2654,3 +2654,11 @@ msgstr ""
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr ""
+
+#: locale/tmp-html/tabby-core/src/components/promptModal.component.html
+msgid "Remember"
+msgstr ""
+
+#: locale/tmp-html/tabby-core/src/components/promptModal.component.html
+msgid "OK"
+msgstr ""

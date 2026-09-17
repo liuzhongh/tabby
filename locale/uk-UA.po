@@ -2647,3 +2647,9 @@ msgstr "Згорнути групу"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Редагувати групу"
+
+msgid "Remember"
+msgstr "Запам'ятати"
+
+msgid "OK"
+msgstr "Гаразд"

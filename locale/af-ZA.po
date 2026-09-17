@@ -2647,3 +2647,9 @@ msgstr "Vou groep in"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Wysig groep"
+
+msgid "Remember"
+msgstr "Onthou"
+
+msgid "OK"
+msgstr "OK"

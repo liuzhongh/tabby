@@ -2648,3 +2648,9 @@ msgstr "Ciutkan grup"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Edit grup"
+
+msgid "Remember"
+msgstr "Ingat"
+
+msgid "OK"
+msgstr "OK"

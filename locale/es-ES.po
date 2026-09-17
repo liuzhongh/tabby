@@ -2655,3 +2655,9 @@ msgstr "Contraer grupo"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Editar grupo"
+
+msgid "Remember"
+msgstr "Recordar"
+
+msgid "OK"
+msgstr "Aceptar"

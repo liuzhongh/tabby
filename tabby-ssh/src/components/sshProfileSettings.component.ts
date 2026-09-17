@@ -3,7 +3,7 @@ import { Component, Inject, OnDestroy, Optional, ViewChild } from '@angular/core
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { firstBy } from 'thenby'
 
-import { FileProvidersService, Platform, HostAppService, PromptModalComponent, PartialProfile, ProfilesService, ProfileSettingsComponent, FullyDefined, ProxifiedConfig } from 'tabby-core'
+import { FileProvidersService, Platform, HostAppService, PromptModalComponent, PartialProfile, ProfilesService, ProfileSettingsComponent, FullyDefined, ProxifiedConfig, TranslateService } from 'tabby-core'
 import { LoginScriptsSettingsComponent } from 'tabby-terminal'
 import { PasswordStorageService } from '../services/passwordStorage.service'
 import { ForwardedPortConfig, SSHAlgorithmType, SSHProfile } from '../api'
@@ -41,6 +41,7 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
         private passwordStorage: PasswordStorageService,
         private ngbModal: NgbModal,
         private fileProviders: FileProvidersService,
+        private translate: TranslateService,
         @Optional() @Inject(SSHProfileSettingsActionProvider) private settingsActionProviders: SSHProfileSettingsActionProvider[]|null,
     ) { }
 
@@ -87,7 +88,7 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
 
     async setPassword () {
         const modal = this.ngbModal.open(PromptModalComponent)
-        modal.componentInstance.prompt = `Password for ${this.profile.options.user}@${this.profile.options.host}`
+        modal.componentInstance.prompt = this.translate.instant('Password for {user}@{host}', this.profile.options)
         modal.componentInstance.password = true
         try {
             const result = await modal.result.catch(() => null)

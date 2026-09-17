@@ -2648,3 +2648,9 @@ msgstr "Grubu daralt"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Grubu düzenle"
+
+msgid "Remember"
+msgstr "Hatırla"
+
+msgid "OK"
+msgstr "Tamam"

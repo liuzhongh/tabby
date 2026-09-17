@@ -2647,3 +2647,9 @@ msgstr "グループを折りたたむ"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "グループを編集"
+
+msgid "Remember"
+msgstr "記憶する"
+
+msgid "OK"
+msgstr "OK"

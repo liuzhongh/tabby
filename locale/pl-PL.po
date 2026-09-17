@@ -2647,3 +2647,9 @@ msgstr "Zwiń grupę"
 #: tabby-core/src/components/profileTree.component.ts
 msgid "Edit group"
 msgstr "Edytuj grupę"
+
+msgid "Remember"
+msgstr "Zapamiętaj"
+
+msgid "OK"
+msgstr "OK"

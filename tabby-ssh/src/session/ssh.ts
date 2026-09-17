@@ -685,7 +685,10 @@ export class SSHSession {
             }
             if (method.type === 'prompt-password') {
                 const modal = this.ngbModal.open(PromptModalComponent)
-                modal.componentInstance.prompt = `Password for ${this.authUsername}@${this.profile.options.host}`
+                modal.componentInstance.prompt = this.translate.instant('Password for {user}@{host}', {
+                    user: this.authUsername,
+                    host: this.profile.options.host,
+                })
                 modal.componentInstance.password = true
                 modal.componentInstance.showRememberCheckbox = true
                 const prefilledPassword = await this.passwordStorage.loadPassword(this.profile, this.authUsername)
@@ -961,7 +964,7 @@ export class SSHSession {
                     await this.passwordStorage.deletePrivateKeyPassword(keyHash)
 
                     const modal = this.ngbModal.open(PromptModalComponent)
-                    modal.componentInstance.prompt = 'Private key passphrase'
+                    modal.componentInstance.prompt = this.translate.instant('Private key passphrase')
                     modal.componentInstance.password = true
                     modal.componentInstance.showRememberCheckbox = true
 
