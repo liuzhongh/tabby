@@ -25,6 +25,7 @@ export class KeyboardInteractiveAuthComponent implements OnInit {
     @Output() done = new EventEmitter()
     @ViewChild('input') input: ElementRef
     remember = false
+    private prefilledPasswordResponses = new Map<number, string>()
 
     constructor (
         private passwordStorage: PasswordStorageService,
@@ -33,6 +34,7 @@ export class KeyboardInteractiveAuthComponent implements OnInit {
     ) {}
 
     async ngOnInit (): Promise<void> {
+        this.rememberPrefilledPasswordResponses()
         const savedPassword = await this.passwordStorage.loadPassword(this.profile)
         if (savedPassword) {
             for (let i = 0; i < this.prompt.prompts.length; i++) {
@@ -40,6 +42,7 @@ export class KeyboardInteractiveAuthComponent implements OnInit {
                     this.prompt.responses[i] = savedPassword
                 }
             }
+            this.rememberPrefilledPasswordResponses()
             this.cdr.markForCheck()
         }
     }
@@ -106,8 +109,13 @@ export class KeyboardInteractiveAuthComponent implements OnInit {
     }
 
     next (): void {
-        if (this.isPassword() && this.remember) {
-            this.passwordStorage.savePassword(this.profile, this.prompt.responses[this.step])
+        if (this.isPassword()) {
+            const response = this.prompt.responses[this.step]
+            if (this.remember) {
+                this.passwordStorage.savePassword(this.profile, response)
+            } else if (response && response !== this.prefilledPasswordResponses.get(this.step)) {
+                this.prompt.usedUnrememberedPassword = true
+            }
         }
 
         if (this.step === this.prompt.prompts.length - 1) {
@@ -125,6 +133,15 @@ export class KeyboardInteractiveAuthComponent implements OnInit {
             return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:'
         } catch {
             return false
+        }
+    }
+
+    private rememberPrefilledPasswordResponses (): void {
+        for (let i = 0; i < this.prompt.prompts.length; i++) {
+            const response = this.prompt.responses[i]
+            if (this.prompt.isAPasswordPrompt(i) && response) {
+                this.prefilledPasswordResponses.set(i, response)
+            }
         }
     }
 }

@@ -102,6 +102,10 @@ export class SSHTabComponent extends ConnectableTerminalTabComponent<SSHProfile>
                     throw new Error('Jump session is not authenticated yet somehow')
                 }
 
+                if (!jumpSession.canReuse) {
+                    session.canReuse = false
+                }
+
                 try {
                     session.jumpChannel = await jumpSession.ssh.openTCPForwardChannel({
                         addressToConnectTo: profile.options.host,

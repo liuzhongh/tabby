@@ -65,6 +65,7 @@ function sshAuthTypeForMethod (m: AuthMethod): string {
 
 export class KeyboardInteractivePrompt {
     readonly responses: string[] = []
+    usedUnrememberedPassword = false
 
     private _resolve: (value: string[]) => void
     private _reject: (reason: any) => void
@@ -107,6 +108,7 @@ export class SSHSession {
 
     activePrivateKey: russh.KeyPair|null = null
     authUsername: string|null = null
+    canReuse = true
 
     open = false
 
@@ -127,6 +129,7 @@ export class SSHSession {
     private knownHosts: SSHKnownHostsService
     private privateKeyImporters: AutoPrivateKeyLocator[]
     private previouslyDisconnected = false
+    private activePrivateKeyUsesTransientPassphrase = false
 
     constructor (
         private injector: Injector,
@@ -704,6 +707,7 @@ export class SSHSession {
                         }
                         const result = await this.ssh.authenticateWithPassword(this.authUsername, promptResult.value)
                         if (result instanceof russh.AuthenticatedSSHClient) {
+                            this.canReuse = this.canReuse && !!promptResult.remember
                             return result
                         }
                         maybeSetRemainingMethods(result)
@@ -720,6 +724,7 @@ export class SSHSession {
                     this.emitServiceMessage(`Trying private key: ${method.name}`)
                     const result = await this.ssh.authenticateWithKeyPair(this.authUsername, key, null)
                     if (result instanceof russh.AuthenticatedSSHClient) {
+                        this.canReuse = this.canReuse && !this.activePrivateKeyUsesTransientPassphrase
                         return result
                     }
                     maybeSetRemainingMethods(result)
@@ -730,6 +735,7 @@ export class SSHSession {
             }
             if (method.type === 'keyboard-interactive') {
                 let state: russh.AuthenticatedSSHClient|russh.KeyboardInteractiveAuthenticationState = await this.ssh.startKeyboardInteractiveAuthentication(this.authUsername)
+                let usedUnrememberedPassword = false
 
                 while (true) {
                     if (state.state === 'failure') {
@@ -764,6 +770,7 @@ export class SSHSession {
                         try {
                             // eslint-disable-next-line @typescript-eslint/await-thenable
                             responses = await prompt.promise
+                            usedUnrememberedPassword ||= prompt.usedUnrememberedPassword
                         } catch {
                             break // this loop
                         }
@@ -772,6 +779,7 @@ export class SSHSession {
                     state = await this.ssh.continueKeyboardInteractiveAuthentication(responses)
 
                     if (state instanceof russh.AuthenticatedSSHClient) {
+                        this.canReuse = this.canReuse && !usedUnrememberedPassword
                         return state
                     }
                 }
@@ -935,6 +943,7 @@ export class SSHSession {
     }
 
     async loadPrivateKey (name: string, privateKeyContents: Buffer): Promise<russh.KeyPair> {
+        this.activePrivateKeyUsesTransientPassphrase = false
         this.activePrivateKey = await this.loadPrivateKeyWithPassphraseMaybe(privateKeyContents.toString())
         return this.activePrivateKey
     }
@@ -975,6 +984,8 @@ export class SSHSession {
                     passphrase = result?.value
                     if (passphrase && result.remember) {
                         this.passwordStorage.savePrivateKeyPassword(keyHash, passphrase)
+                    } else if (passphrase) {
+                        this.activePrivateKeyUsesTransientPassphrase = true
                     }
                 } else {
                     this.notifications.error('Could not read the private key', e.toString())

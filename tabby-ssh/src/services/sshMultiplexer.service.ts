@@ -12,6 +12,9 @@ export class SSHMultiplexerService {
     ) { }
 
     async addSession (session: SSHSession): Promise<void> {
+        if (!session.canReuse) {
+            return
+        }
         const key = await this.getMultiplexerKey(session.profile)
         this.sessions.set(key, session)
         session.willDestroy$.subscribe(() => {
