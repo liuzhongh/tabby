@@ -19,7 +19,14 @@ export class SecretViewerActionProvider extends SSHProfileSettingsActionProvider
             title: this.translate.instant('Show password'),
             emptyValueText: this.translate.instant('No saved password'),
             reveal: async () => await this.passwords.loadPassword(profile) ?? profile.options.password,
-            save: value => this.passwords.savePassword(profile, value),
+            save: async value => {
+                await this.passwords.savePassword(profile, value)
+                profile.options.password = ''
+            },
+            remove: async () => {
+                await this.passwords.deletePassword(profile)
+                profile.options.password = ''
+            },
         }]
     }
 
@@ -30,6 +37,7 @@ export class SecretViewerActionProvider extends SSHProfileSettingsActionProvider
             emptyValueText: this.translate.instant('No saved passphrase'),
             reveal: async (): Promise<string|null> => this.passwords.loadPrivateKeyPassword(await this.getPrivateKeyHash(profile, path)),
             save: async value => this.passwords.savePrivateKeyPassword(await this.getPrivateKeyHash(profile, path), value),
+            remove: async () => this.passwords.deletePrivateKeyPassword(await this.getPrivateKeyHash(profile, path)),
         }]
     }
 

@@ -101,6 +101,7 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
     clearSavedPassword () {
         this.hasSavedPassword = false
         this.passwordStorage.deletePassword(this.profile)
+        this.profile.options.password = ''
         for (const action of this.passwordActions) {
             this.clearSettingsAction(action)
         }
@@ -254,7 +255,9 @@ export class SSHProfileSettingsComponent implements ProfileSettingsComponent<SSH
 
         this.savingSettings = true
         try {
-            await Promise.all([...this.editingSettingsActions.entries()].map(([action, value]) => action.save?.(value)))
+            await Promise.all([...this.editingSettingsActions.entries()].map(([action, value]) => (
+                value.length ? action.save?.(value) : action.remove?.()
+            )))
         } finally {
             this.savingSettings = false
         }
